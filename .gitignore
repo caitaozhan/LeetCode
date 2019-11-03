@@ -2,4 +2,5 @@
 .DS_Store
 */Makefile
 .vscode
+*/.vscode
 */bin
