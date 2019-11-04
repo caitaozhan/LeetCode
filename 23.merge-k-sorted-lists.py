@@ -64,10 +64,14 @@ class Solution:
         head = ListNode(0)  # a dummy node
         last = head
     
-        h = []  # heap
-        for ln in lists:
-            if ln is not None:
-                heapq.heappush(h, Entry(ln.val, ln))
+        # h = []  # heap
+        # for ln in lists:
+        #     if ln is not None:
+        #         heapq.heappush(h, Entry(ln.val, ln))
+
+        h = [Entry(ln.val, ln) for ln in lists if ln]
+        heapq.heapify(h)
+
         while h:
             # pop the smallest
             entry = heapq.heappop(h)
