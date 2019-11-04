@@ -52,7 +52,9 @@ class ListNode:
 
 
 class Solution:
-
+    '''operate pointers pre and cur
+       do two pass, where the first pass count the size of the list
+    '''
     @staticmethod
     def remove(pre, cur):
         '''remove current node'''
@@ -88,7 +90,32 @@ class Solution:
             cur = cur.next
             index += 1
         return head
-    
+
+
+"""
+class Solution:
+    '''add a dummy node
+       operate two pointers slow and fast
+       do one pass, 
+       don't count the size of the list, but still need to iterate to the list's end
+    '''
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        slow = dummy
+        fast = head
+
+        for _ in range(n):
+            fast = fast.next
+        
+        while fast is not None:
+            fast = fast.next
+            slow = slow.next
+        
+        slow.next = slow.next.next
+
+        return dummy.next
+"""
 
 def test1():
     print('test 1')
@@ -103,7 +130,7 @@ def test1():
     l4.next = l5
 
     s = Solution()
-    l = s.removeNthFromEnd(l1, 4)
+    l = s.removeNthFromEnd(l1, 2)
     l.print()
 
 
