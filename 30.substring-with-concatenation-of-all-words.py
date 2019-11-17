@@ -44,9 +44,8 @@
 #
 
 from typing import List
-from collections import defaultdict
 import copy
-import line_profiler
+# import line_profiler
 
 # @lc code=start
 class Solution2:
