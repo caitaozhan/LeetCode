@@ -79,20 +79,17 @@ class Solution:
     def backtrack(self, row):
         for col in range(self.n):
             if self.check(row, col):
-                backup = self.chessboard[row]
                 self.chessboard[row] = col
                 if row == self.n - 1:
                     self.answers.append(Solution.chessboard2list(self.chessboard, self.n))
                 else:
                     self.backtrack(row+1)
-                    self.chessboard[row] = backup
-
 
     def solveNQueens(self, n: int) -> List[List[str]]:
         self.answers = []
         self.n = n
         self.chessboard = [0] * n  # use 1d list to represent 2d chessboard
-        self.backtrack(0)                        # start at zero-th row
+        self.backtrack(0)          # start at zero-th row
         return self.answers
 
 
@@ -104,8 +101,10 @@ def test(n):
             print(row)
         print()
 
+
 if __name__ == '__main__':
     test(4)
+    test(8)
 
 # @lc code=end
 
