@@ -4,3 +4,5 @@
 .vscode
 */.vscode
 */bin
+.prof
+.lprof
