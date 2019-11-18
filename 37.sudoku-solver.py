@@ -123,7 +123,7 @@ class Solution:
         Do not return anything, modify board in-place instead.
         """
         self.init(board)
-        self.route = []                                 # define a backtrack route
+        self.route = []                                 # define a backtrack route (fill the subbox first)
         for out_i in range(self.box_len):               # index for the subbox
             for out_j in range(self.box_len):
                 for in_i in range(self.box_len):        # index inside the subbox
@@ -158,4 +158,127 @@ if __name__ == '__main__':
     test()
         
 # @lc code=end
+
+
+
+
+
+class SolutionOther:  # fastest solution on LeetCode
+# Idea:
+    # Keep track of 
+    # 1. all empty spots along with all candidate digits that can be placed at those spots
+    # - Use DFS to try the empty spot with fewest candidates (using 1) (optimization)
+    # - Try place each candidate at that spot.
+    # - Scan through all other empty spots and modify their candidate ditis
+    #   if they are affected by this placement. (keep track of this update)
+    #   Terminate early if any other spot loses all candidates. (important optimization)
+    # - Backtrack if this path failed, and un-modify all the changes made.
+    def solveSudoku(self, board):
+        """
+        [List [List String]] -> Void
+        Solve the given board of 9x9 sudoku, modify the board in place.
+        """
+
+        # [Map (Int, Int) [Set Int]]
+        # Keys are remaining empty spots during the search represented as (row, col).
+        # Values are the candidate digits that can be placed at (row, col)
+        empty_spots = {}
+
+        # row_valids[i] is a Set of digits which is found at i-th row in board
+        row_digits = [set() for j in range(9)]
+        # col_valids[i] is a Set of digits which is found at i-th column in board
+        col_digits = [set() for j in range(9)]
+        # sqr_valids[i] is a Set of digits which is found at i-th square in board
+        sqr_digits = [set() for j in range(9)]
+
+        # convert strings in the board to integers
+        # fill in the above lists during this process
+        int_board = []
+        for row in range(9):
+            int_row = []
+            for col in range(9):
+                s = board[row][col]
+                sqr = (row // 3) * 3 + (col // 3)
+                if s.isdigit():
+                    num = int(s)
+                    int_row.append(num)
+                    row_digits[row].add(num)
+                    col_digits[col].add(num)
+                    sqr_digits[sqr].add(num)
+                else:
+                    int_row.append(0)
+                    empty_spots[(row, col)] = set()
+            int_board.append(int_row)
+
+        # fill in empty_spots
+        for row, col in empty_spots:
+            candidates = empty_spots[(row, col)]
+            sqr = (row // 3) * 3 + (col // 3)
+            for n in range(1, 10):
+                # if n is can be placed at (row, col) and sqr-th square
+                # it's a valid candidate for (row, col)
+                if not (n in row_digits[row] or n in col_digits[col] or n in sqr_digits[sqr]):
+                    candidates.add(n)
+
+
+        def dfs():
+            # Try filling in each empty spot per rule of sudoku,
+            # do a dfs and backtrack to look for a potential solution.
+            # Modify the board in place and return True iff a solution was found.
+
+            # if no more empty spots left, a solution was found
+            if not empty_spots:
+                return True
+
+            # find the empty spot with fewest candidates
+            target_row, target_col = min([spot for spot in empty_spots], key=lambda s : len(empty_spots[s]))
+            target_sqr = (target_row // 3) * 3 + (target_col // 3)
+            candidates = empty_spots[(target_row, target_col)]
+
+            # remove this from empty_spots
+            del empty_spots[(target_row, target_col)]
+            # try placing each candidate at (target_row, target_col)
+            for n in candidates:
+                # for rest of empty spots, if they are in the same row/col/sqr
+                # as n, and contains n, they need to be updated. We keep
+                # track of these updates in case of backtracking
+                updated_spots = []
+                # whether the placement of n failed (invalidates other empty spots)
+                failed = False
+                for spot, valids in empty_spots.items():
+                    row, col = spot
+                    sqr = (row // 3) * 3 + (col // 3)
+                    if n in valids and (target_row == row or target_col == col or target_sqr == sqr):
+                        valids.remove(n)
+                        updated_spots.append(spot)
+                    if not valids:
+                        failed = True
+                        break
+
+                # If the placement was successful,
+                # keep doing the dfs with leftover empty spots
+                if not failed and dfs():
+                    # modify the board iff a solution was found
+                    # this keeps number of modification minimal
+                    int_board[target_row][target_col] = n
+                    return True
+
+                # Backtrack and un-modify all changes
+                for spot in updated_spots:
+                    empty_spots[spot].add(n)
+                int_board[target_row][target_col] = 0
+                
+
+            # All candidates failed, this path of search should be abandonded.
+            # Restore the target to empty_spots and backtrack
+            empty_spots[(target_row, target_col)] = candidates
+            return False
+
+        if not dfs():
+            raise RuntimeError("No solution possible for given board")
+        
+        # Write solution back into the original board
+        for row in range(9):
+            for col in range(9):
+                board[row][col] = str(int_board[row][col])
 
