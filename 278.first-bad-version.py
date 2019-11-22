@@ -44,6 +44,7 @@
 # @param version, an integer
 # @return a bool
 def isBadVersion(version):
+    version = version
     return True
 
 class Solution:
