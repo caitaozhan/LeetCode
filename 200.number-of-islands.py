@@ -46,8 +46,9 @@
 from typing import List
 
 # @lc code=start
-class Solution:
-
+class Solution3:
+    '''this solution is correct, but pretty slow because of bad position of changing grid[][]
+    '''
     def __init__(self):
         self.x_len = 0
         self.y_len = 0
@@ -107,9 +108,85 @@ class Solution:
         start = self.random_start()
         while start is not None:
             counter += 1
-            # print('\n\n***\n', start, counter)
             self.bfs(start, grid)
             start = self.random_start()
+        return counter
+
+
+class Solution2:
+    def __init__(self):
+        self.x_len = 0
+        self.y_len = 0
+        self.directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+    def check(self, x, y):
+        '''check whether (x, y) is inside the grid'''
+        if x < 0 or y < 0 or x >= self.x_len or y >= self.y_len:
+            return False
+        return True
+
+    def bfs(self, x, y, grid):
+        '''do a bfs starting at (x, y) in grid
+        '''
+        grid[x][y] = '0'                         # mark as visited
+        queue = [(x, y)]
+        while queue:
+            cur = queue.pop(0)
+            for d in self.directions:
+                nxt_x = cur[0] + d[0]
+                nxt_y = cur[1] + d[1]
+                if self.check(nxt_x, nxt_y) is True and grid[nxt_x][nxt_y] == '1':
+                    grid[nxt_x][nxt_y] = '0'   # mark as visited
+                    queue.append((nxt_x, nxt_y))
+
+    def numIslands(self, grid: List[List[str]]) -> int:
+        self.x_len = len(grid)
+        try:
+            self.y_len = len(grid[0])
+        except:
+            return 0
+
+        counter = 0
+        for x in range(self.x_len):
+            for y in range(self.y_len):
+                if grid[x][y] == '1':
+                    counter += 1
+                    self.bfs(x, y, grid)
+        return counter
+
+class Solution:
+    def __init__(self):
+        self.x_len = 0
+        self.y_len = 0
+        self.directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+    def check(self, x, y):
+        '''check whether (x, y) is inside the grid'''
+        if x < 0 or y < 0 or x >= self.x_len or y >= self.y_len:
+            return False
+        return True
+
+    def dfs(self, x, y, grid):
+        grid[x][y] = '0'
+        for d in self.directions:
+            nxt_x = x + d[0]
+            nxt_y = y + d[1]
+            if self.check(nxt_x, nxt_y) is True and grid[nxt_x][nxt_y] == '1':
+                self.dfs(nxt_x, nxt_y, grid)
+
+    def numIslands(self, grid: List[List[str]]) -> int:
+        self.x_len = len(grid)
+        try:
+            self.y_len = len(grid[0])
+        except:
+            return 0
+
+        counter = 0
+        for x in range(self.x_len):
+            for y in range(self.y_len):
+                if grid[x][y] == '1':
+                    counter += 1
+                    self.dfs(x, y, grid)
         return counter
 
 
@@ -127,10 +204,15 @@ def test2():
     s = Solution()
     print(s.numIslands(grid))
 
+def test3():
+    grid = [["1","1","1","1","1","0","1","1","1","1","1","1","1","1","1","0","1","0","1","1"],["0","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","1","1","0"],["1","0","1","1","1","0","0","1","1","0","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],["1","0","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],["1","0","1","1","1","1","1","1","0","1","1","1","0","1","1","1","0","1","1","1"],["0","1","1","1","1","1","1","1","1","1","1","1","0","1","1","0","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","1","0","1","1"],["1","1","1","1","1","1","1","1","1","1","0","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],["0","1","1","1","1","1","1","1","0","1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","0","1","1","1","1","1","1","1","0","1","1","1","1","1","1"],["1","0","1","1","1","1","1","0","1","1","1","0","1","1","1","1","0","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","1","1","1","0"],["1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","1","0","0"],["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"]]
+    s = Solution()
+    print(s.numIslands(grid))
 
 if __name__ == '__main__':
     # test()
     # test2()
+    # test3()
     pass
         
 # @lc code=end
