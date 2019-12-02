@@ -7,5 +7,5 @@ How to solve LeetCode Problems:
 4. make the corner cases and edge conditions correct (tune all parameters to emtpy, 1, or any small input)
 5. if in good mode, make the program faster
 
-# VS Code has LeetCode Plugin
-The LeetCode plugin in VS Code is super! Try it out.
+# VS Code has LeetCode Extension
+The LeetCode extension in VS Code is handy! Try it out.
