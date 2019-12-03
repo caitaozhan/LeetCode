@@ -80,15 +80,16 @@ class Solution:
         return sub_domains
 
     def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
-        from collections import defaultdict
-        cp_subdomains = defaultdict(int)
+        from collections import Counter
+        counter = Counter()
         for cpdomain in cpdomains:
             count, domain = cpdomain.split(' ')
+            count = int(count)
             subdomains = self.extract_sub(domain)
             for subdomain in subdomains:
-                cp_subdomains[subdomain] += int(count)
+                counter[subdomain] += count
         ans = []
-        for subdomain, count in cp_subdomains.items():
+        for subdomain, count in counter.items():
             ans.append('{} {}'.format(count, subdomain))
         return ans
 
