@@ -32,7 +32,8 @@ def knows(a: int, b: int) -> bool:
         return False
 
 class Solution2:
-    '''O(N^2) solution that is accepted
+    '''O(N^2) solution that is accepted.
+        counter = 249
     '''
 
     def confirm(self, can, n):
@@ -74,7 +75,7 @@ class Solution2:
 
 
 class Solution:
-    '''A O(N) solution, the idea is to avoid the adjacent matrix!!!
+    '''A O(N) solution, the idea is to avoid the adjacent matrix and find the cand in ONE pass !!!
         counter = 156
     '''
     def findCelebrity(self, n: int) -> int:
