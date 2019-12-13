@@ -65,7 +65,6 @@ class Solution2:
                 else:
                     celeberty[i] = 0
             cels = self.count(celeberty)
-            print(len(cels))
             if len(cels) == 0:
                 return -1
             elif len(cels) == 1:
