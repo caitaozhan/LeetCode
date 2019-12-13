@@ -48,9 +48,9 @@
 #
 
 # @lc code=start
-class LRUCache:
+class LRUCache2:
     '''OrderedDict is the best data structure for this.
-       fail-1
+       fail-1, fail-2
     '''
 
     def __init__(self, capacity: int):
@@ -77,7 +77,33 @@ class LRUCache:
                 self.lru_dict.popitem(last=False)
                 self.lru_dict[key] = value
         
+class LRUCache:
+    '''OrderedDict is the best data structure for this.
+       using move_to_end(, last=True). it means moves to the last (right side)
+    '''
 
+    def __init__(self, capacity: int):
+        from collections import OrderedDict
+        self.capacity = capacity
+        self.lru_dict = OrderedDict()
+
+    def get(self, key: int) -> int:
+        if key in self.lru_dict:
+            self.lru_dict.move_to_end(key, last=True)
+            return self.lru_dict[key]
+        else:
+            return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.lru_dict:
+            self.lru_dict.pop(key)
+            self.lru_dict[key] = value
+        else:
+            if len(self.lru_dict) < self.capacity:
+                self.lru_dict[key] = value
+            else:
+                self.lru_dict.popitem(last=False)
+                self.lru_dict[key] = value
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
