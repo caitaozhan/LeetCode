@@ -59,7 +59,7 @@ class Solution:
             return [None]
         return self.inorder(root.left) + [root.val] + self.inorder(root.right)
 
-    def flatten_helper(self, root):
+    def flatten_helper2(self, root):
         '''Given a root, flatten it and return the head and tail
         '''
         if root is None:
@@ -81,26 +81,41 @@ class Solution:
             root.left = None             # fail-1: forgot to None this
             left_tail.right = root_right
             return root, right_tail
+        else:
+            pass
+
+
+    def flatten_helper(self, root):
+        '''Given a root, flatten it and return the flattened list's tail
+        '''
+        if root is None:
+            return None
+        
+        left_tail = self.flatten_helper(root.left)
+        right_tail = self.flatten_helper(root.right)
+        if root.left is None and root.right is None:
+            return root
+        elif root.left is None and root.right is not None:
+            return right_tail
+        elif root.left is not None and root.right is None:
+            root.right = root.left
+            root.left = None
+            return left_tail
+        elif root.left is not None and root.right is not None:
+            root_right = root.right
+            root.right = root.left
+            root.left = None
+            left_tail.right = root_right
+            return right_tail
+        else:
+            pass
 
 
     def flatten(self, root: TreeNode) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
-        if root is None:                 # fail-2: forgot to check this
-            return
-        left_head, left_tail = self.flatten_helper(root.left)
-        right_head, _ = self.flatten_helper(root.right)
-        if left_head is None:
-            pass
-        elif left_head is not None and right_head is None:
-            root.right = left_head
-            root.left = None              # fail-1: forgot to None this
-        elif left_head is not None and right_head is not None:
-            root_right = root.right
-            root.right = left_head
-            root.left = None              # fail-1: forgot to None this
-            left_tail.right = root_right
+        self.flatten_helper(root)
 
 
 # @lc code=end
