@@ -36,7 +36,7 @@ class ListNode:
         self.val = x
         self.next = None
 
-class Solution2:
+class Solution4:
     '''using a stack'''
     def reverseList(self, head: ListNode) -> ListNode:
         stack = []
@@ -53,11 +53,11 @@ class Solution2:
         return dummy.next
     
 
-class Solution:
-    '''using recursive'''
+class Solution3:
+    '''using divide and conquer'''
 
     def reserve_helper(self, head):
-        '''given a head of a list reverse it and return the reversed list's head and tail
+        '''given a head of a list, reverse it and return the reversed list's head and tail
         '''
         if head is None:
             return None, None
@@ -73,6 +73,32 @@ class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
         head, _ = self.reserve_helper(head)
         return head
+
+
+class Solution2:
+    '''iteratively without a stack'''
+    def reverseList(self, head: ListNode) -> ListNode:
+        pre = None
+        cur = head
+        while cur:
+            nxt = cur.next
+            cur.next = pre
+            pre, cur = cur, nxt
+        return pre
+         
+
+class Solution:
+    '''Recursive, but not divide and conquer'''
+    def reverseList(self, head: ListNode) -> ListNode:
+        '''given a head, reverse the current head's left side and right side, 
+           return the final revsered linked list's head
+        '''
+        if head is None or head.next is None:
+            return head
+        final_head = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return final_head
 
 # @lc code=end
 
