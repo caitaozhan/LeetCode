@@ -44,7 +44,8 @@ from typing import List
 
 # @lc code=start
 class Solution:
-
+    ''' All we need to do is to find the patterns.
+    '''
     def __init__(self):
         self.directions = [(0, 1), (1, 0), (0, -1), (-1, 0)] # right, down, left, up
 
