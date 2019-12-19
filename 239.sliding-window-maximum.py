@@ -58,7 +58,7 @@ class Solution:
 
     def update_queue(self, queue, i):
         '''1. make sure the queue only contains past k elements (the sliding window)
-           2. also make sure that queue[0] is the smallest element
+           2. also make sure that queue[0] is the max element
         Args:
             queue -- collections.deque
             i     -- int -- index of self.nums at each iteration
