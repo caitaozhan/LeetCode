@@ -6,3 +6,4 @@
 */bin
 .prof
 .lprof
+*.code-workspace
