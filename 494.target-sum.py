@@ -60,7 +60,7 @@ from typing import List
 
 # @lc code=start
 
-class Solution:
+class Solution0:
     '''DP: O(N x 1000)
     DP NOT in the traditional way, in terms of using the index
     dp[sum] = count, update this dp Counter
@@ -81,7 +81,6 @@ class Solution:
                 cur_sum = pre_sum - num
                 new_dp[cur_sum] += pre_count
             dp = new_dp
-            # print(dp)
         if S in dp:
             return dp[S]
         else:
@@ -150,7 +149,51 @@ class Solution2:
         self.nums = nums
         self.dfs(0, -1)
         return self.counter
-
         
-# @lc code=end
 
+class Solution:
+    '''do DFS and memorization
+    '''
+    def __init__(self):
+        self.target  = 0
+        self.nums    = []
+        self.memo    = {}  # (pre_sum, pre_indx)
+
+    def dfs(self, pre_sum, pre_indx):
+        '''the summation of previous elements in the array. return the answer (target sum ways)
+        '''
+        cur_indx = pre_indx + 1
+        if cur_indx == len(self.nums):
+            if pre_sum == self.target:
+                self.memo[(pre_sum, pre_indx)] = 1
+                return 1
+            else:
+                self.memo[(pre_sum, pre_indx)] = 0
+                return 0
+
+        if (pre_sum, pre_indx) in self.memo:
+            return self.memo[(pre_sum, pre_indx)]
+        
+        cur_sum = pre_sum + self.nums[cur_indx]  # +
+        add = self.dfs(cur_sum, cur_indx)
+        cur_sum = pre_sum - self.nums[cur_indx]  # -
+        sub = self.dfs(cur_sum, cur_indx)
+        self.memo[(pre_sum, pre_indx)] = add + sub
+        return self.memo[(pre_sum, pre_indx)]
+
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        self.target = S
+        self.nums = nums
+        return self.dfs(0, -1)
+
+
+def test():
+    nums = [1,1,1,1,1]
+    target = 3
+    s = Solution()
+    print(s.findTargetSumWays(nums, target))
+
+if __name__ == '__main__':
+    # test()
+    pass
+# @lc code=end
