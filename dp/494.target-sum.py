@@ -53,7 +53,8 @@ Solution2: do DFS. but time limit exceeded on [29,6,7,36,30,28,35,48,20,44,40,2,
 
 Solution3: split the array into two half, do DFS on both sides, store all possible outcomes of each half. then consider all cases of the two half.
            this utilized that "The sum of elements in the given array will not exceed 1000"
-Solution:  DP. an improvement of Solution2
+Solution:  DFS with memorization
+Solution0: DP. an improvement of Solution2
 '''
 
 from typing import List
@@ -63,6 +64,8 @@ from typing import List
 class Solution0:
     '''DP: O(N x 1000)
     DP NOT in the traditional way, in terms of using the index
+    subproblem: the count of ways to get to an intermediate summation, this summation is not directly related to
+                the input sequence, but indirectly related, i.e. summation of the sequences from x[1, ..., n]
     dp[sum] = count, update this dp Counter
     '''
     def findTargetSumWays(self, nums: List[int], S: int) -> int:

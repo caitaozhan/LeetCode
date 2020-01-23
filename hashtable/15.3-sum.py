@@ -81,7 +81,8 @@ class Solution2:
 
 
 class Solution:
-    ''' still O(n^2), but a lot faster
+    ''' still O(n^2), but a lot faster. It is the sorting and only keys of the defaultdict counter are left
+        that makes it faster by reducing duplicates examined
     '''
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         from collections import defaultdict
@@ -90,7 +91,7 @@ class Solution:
         counter = defaultdict(int)
         for num in nums:
             counter[num] += 1
-        nums = sorted(counter)
+        nums = sorted(counter)         # only keys are remained, no values
         for i, a in enumerate(nums):   # a < b < c, first fix a, then find b, then find c
             two_sum = 0 - a
             left = bisect.bisect_left(nums, two_sum - nums[-1], i + 1)   # the lower bound of b
