@@ -90,7 +90,7 @@ class Solution2:
         return False
 
 
-class Solution:
+class Solution3:
     '''greedy: do not use a heap, too much overhead
                every iteration, only pick the maximum nxt_indx + nums[nxt_indx]
     '''
@@ -112,6 +112,22 @@ class Solution:
                     maxx = nxt_indx + nums[nxt_indx]
                     node = (nxt_indx, nums[nxt_indx])
         return False
+
+
+class Solution:
+    '''greedy: do not use a heap, too much overhead
+               don't think in terms of iterations. interesting
+    '''
+    def canJump(self, nums: List[int]) -> bool:
+        if len(nums) == 1:
+            return True
+        max_i = nums[0]
+        for i in range(1, len(nums)):
+            if i <= max_i:
+                max_i = max(max_i, i + nums[i])
+            else:
+                break
+        return max_i >= len(nums) - 1
 
 
 def test1():
