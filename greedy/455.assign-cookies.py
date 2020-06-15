@@ -60,7 +60,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    # greedy: meet the child with smaller cookie content first using the smallest possible cookie
+    # greedy: meet the child with smaller cookie content first. use the smallest possible cookie
     def findContentChildren(self, g: List[int], s: List[int]) -> int:
         g.sort()
         s.sort()
@@ -69,7 +69,7 @@ class Solution:
         for i in range(len(g)):
             while j < len(s):
                 if s[j] >= g[i]:
-                    counter += 1
+                    counter += 1  # assign cookie s[j] to child g[i]
                     j += 1
                     break
                 j += 1
