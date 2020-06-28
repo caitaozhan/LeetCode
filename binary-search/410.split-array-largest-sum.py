@@ -46,7 +46,7 @@
 from typing import List
 
 # @lc code=start
-class Solution:
+class Solution2:
     ''' Binary search, the range is the range of the answer, i.e. [1, summation]
     '''
     def can_split(self, nums_sum, m, x):
@@ -94,6 +94,37 @@ class Solution:
             else:
                 low = mid + 1
         return low
+
+
+class Solution:
+    ''' Binary search, the range is the range of the answer, i.e. [1, summation]
+    '''
+    def can_split(self, nums, m, x):
+        '''return True if is able to split the array nums (passing in the nums_sum, not the original nums) in to m subarrays with max sum being x
+           return False otherwise
+           split using greedy
+        '''
+        split_count = 0
+        cur_sum = 0
+        for num in nums:
+            cur_sum += num
+            if cur_sum > x:
+                split_count += 1
+                cur_sum = num
+        return split_count + 1 <= m
+
+    def splitArray(self, nums: List[int], m: int) -> int:
+        low = max(nums)   # a trick here, increase the lower bound from 1 to max(nums) not only reduces the range, but also simplies the self.can_split()
+        high = sum(nums)
+
+        while low < high:
+            mid = (low + high) // 2
+            if self.can_split(nums, m, mid):
+                high = mid
+            else:
+                low = mid + 1
+        return low
+
 
 '''Test cases
 
