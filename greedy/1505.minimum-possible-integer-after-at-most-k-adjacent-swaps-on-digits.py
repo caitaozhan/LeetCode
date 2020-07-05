@@ -20,9 +20,11 @@ class Solution:
             to_find = (to_find + 1) % 10
         return num
 
+def test():
+    num = "294984148179"
+    k = 11
 
-num = "294984148179"
-k = 11
+    s = Solution()
+    print(s.minInteger(num, k))
 
-s = Solution()
-print(s.minInteger(num, k))
+test()
