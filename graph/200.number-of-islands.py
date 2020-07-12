@@ -154,7 +154,10 @@ class Solution2:
                     self.bfs(x, y, grid)
         return counter
 
-class Solution:
+
+class Solution4:
+    '''dfs
+    '''
     def __init__(self):
         self.x_len = 0
         self.y_len = 0
@@ -189,6 +192,58 @@ class Solution:
                     self.dfs(x, y, grid)
         return counter
 
+class UF:
+    def __init__(self, m, n, grid):
+        ''' m row n colomn grid
+        '''
+        self.counter = 0
+        self.parent = [[0 for j in range(n)] for i in range(m)]  # the parent is itself
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    self.counter += 1
+                    self.parent[i][j] = (i, j)
+
+    def find(self, x, y):
+        '''find the root and do path compression in the mean time
+        '''
+        while self.parent[x][y] != (x, y):
+            parent_x, parent_y = self.parent[x][y]
+            self.parent[x][y] = self.parent[parent_x][parent_y]  # path compression
+            x, y = self.parent[x][y]
+        return x, y
+    
+    def union(self, x, y, i, j):
+        '''union (x, y) and (i, j)
+        '''
+        root_xy = self.find(x, y)
+        root_ij = self.find(i, j)
+        if root_xy != root_ij:
+            self.parent[root_xy[0]][root_xy[1]] = root_ij
+            self.counter -= 1
+
+
+class Solution:
+    '''union find solution
+    '''
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid or not grid[0]:
+            return 0
+        directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        m, n = len(grid), len(grid[0])
+        uf = UF(m, n, grid)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '0':
+                    continue
+                for d in directions:
+                    nxt_x = i + d[0]
+                    nxt_y = j + d[1]
+                    if 0 <= nxt_x < m and 0 <= nxt_y < n and grid[nxt_x][nxt_y] == '1':
+                        uf.union(i, j, nxt_x, nxt_y)
+        return uf.counter
+
+
 
 def test():
     grid = [["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]]
@@ -210,7 +265,7 @@ def test3():
     print(s.numIslands(grid))
 
 if __name__ == '__main__':
-    # test()
+    test()
     # test2()
     # test3()
     pass
