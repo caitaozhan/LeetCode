@@ -69,6 +69,8 @@ from typing import List
 
 # @lc code=start
 class Solution:
+    '''Remember the outer loop is iterating through the coins
+    '''
     def change(self, amount: int, coins: List[int]) -> int:
         dp = [0] * (amount+1)
         dp[0] = 1
@@ -80,6 +82,8 @@ class Solution:
 
 
 class SolutionWrong:
+    '''This will lead to duplicate solutions
+    '''
     def change(self, amount: int, coins: List[int]) -> int:
         dp = [0] * (amount+1)
         dp[0] = 1
