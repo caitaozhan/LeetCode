@@ -70,6 +70,8 @@ from typing import List
 # @lc code=start
 class Solution:
     '''Remember the outer loop is iterating through the coins
+       It's like the knapsack problem, iterating throught the coins in the outer loop,
+       so that there is an 'order'. This order prevents the duplicatet solutions∂
     '''
     def change(self, amount: int, coins: List[int]) -> int:
         dp = [0] * (amount+1)
