@@ -139,7 +139,7 @@ class Solution:
             cur = cur.right
 
         x, y = misplaced[0], misplaced[-1]
-        x.val, y.val = y.val, x.val        
+        x.val, y.val = y.val, x.val
 
         
 
