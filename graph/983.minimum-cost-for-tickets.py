@@ -91,7 +91,7 @@ class Node:
     def __str__(self):
         return f'valid to {self.valid_to}, cost is {self.cost}'
 
-class Solution:
+class SolutionBFS:
     '''it is like doing a bfs in a tree. you are actually creating the tree.
     '''
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
@@ -101,7 +101,7 @@ class Solution:
         ans = float('inf')
         valid = [1, 7, 30]
         for day in days:
-            print(day)
+            # print(day)
             new_active_nodes = {}
             for node in active_nodes.values():
                 if day <= node.valid_to:  # not buying a new ticket
@@ -112,7 +112,7 @@ class Solution:
                 else:                     # buying a new ticket
                     for i, cost in enumerate(costs):
                         new_node = Node(day + valid[i] - 1, node.cost + cost)
-                        print(new_node)
+                        # print(new_node)
                         if new_node.valid_to >= days[-1]:
                             ans = min(ans, new_node.cost)
                         else:
@@ -122,9 +122,27 @@ class Solution:
                                 if new_active_nodes[new_node.valid_to].cost > new_node.cost:
                                     new_active_nodes[new_node.valid_to] = new_node
             active_nodes = new_active_nodes
-            length = len(active_nodes)
-            print(f'len = {length}')
+            # length = len(active_nodes)
+            # print(f'len = {length}')
         return ans
+
+
+class Solution:
+    '''dp
+    '''
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        dp = [float('inf')] * (len(days) + 1)
+        dp[0] = 0
+        for i in range(1, len(dp)):
+            dp[i] = dp[i - 1] + costs[0]                  # buy the 1 day ticket
+            for j in range(i-1, -1, -1):
+                if days[i-1] - days[j] > 30:
+                    break
+                if days[i-1] - days[j] + 1 <= 7:
+                    dp[i] = min(dp[i], dp[j] + costs[1])  # buy the 7 day ticket
+                if days[i-1] - days[j] + 1 <=  30:
+                    dp[i] = min(dp[i], dp[j] + costs[2])  # buy the 30 day ticket
+        return dp[-1]
 
 def test():
     days = [1,5,7,10]
