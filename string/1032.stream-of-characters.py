@@ -62,6 +62,7 @@
 #
 
 from typing import List
+from collections import defaultdict
 
 # @lc code=start
 
@@ -147,7 +148,6 @@ class StreamCheckerTLE2:
         return False
         
 
-from collections import defaultdict
 
 class StreamChecker:
     '''based on trie
