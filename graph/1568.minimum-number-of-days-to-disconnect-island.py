@@ -55,6 +55,9 @@ grid[i][j] is 0 or 1
 from typing import List
 
 class Solution:
+    '''The trick is to figure out there need at most 2 days...
+       I didn't come up with this trick during the contest...
+    '''
     def __init__(self):
         self.directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
