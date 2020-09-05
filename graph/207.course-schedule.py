@@ -51,9 +51,12 @@
 #
 
 from typing import List
+from collections import defaultdict
 
 # @lc code=start
-class Solution:
+class SolutionTS:
+    '''Topological sort solution
+    '''
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         adjlist = [[] for _ in range(numCourses)]
         indegree = [0 for _ in range(numCourses)]
@@ -78,7 +81,59 @@ class Solution:
             if indeg != 0:
                 return False
         return True
-        
-        
-# @lc code=end
 
+class Solution:
+    '''Strongly Connected Component Solution
+    '''
+    def __init__(self):
+        self.graph = None
+        self.graph_reverse = None
+
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = defaultdict(list)
+        for a, b in prerequisites:  # b --> a
+            graph[b].append(a)
+        self.graph = graph
+        visited = [0] * numCourses
+        stack   = []
+
+        # step 1: do a dfs, store the node's post number of the DFS in increasing order
+        for i in range(numCourses):
+            if visited[i] == 0:
+                self.dfs(i, visited, stack)
+        
+        # step 2: reverse the graph
+        graph_r = defaultdict(list)
+        for a, b in prerequisites:
+            graph_r[a].append(b)
+        self.graph_reverse = graph_r
+
+        # step 3: do a dfs on the reversed graph in the order of stack, we get SCC, 
+        # if the number of the nodes in a CC > 1, then there is a cycle, then return False
+        visited = [0] * numCourses
+        while stack:
+            start = stack.pop()
+            if visited[start] == 0:
+                scc = []
+                self.dfs2(start, visited, scc)
+                if len(scc) > 1:
+                    return False
+        return True
+
+    def dfs2(self, i, visited, scc):
+        visited[i] = 1
+        scc.append(i)
+        for nxt in self.graph_reverse[i]:
+            if visited[nxt] == 0:
+                self.dfs2(nxt, visited, scc)
+
+    def dfs(self, i, visited, stack):
+        visited[i] = 1
+        for nxt in self.graph[i]:
+            if visited[nxt] == 0:
+                self.dfs(nxt, visited, stack)
+        stack.append(i)   # append here
+
+    
+
+# @lc code=end
