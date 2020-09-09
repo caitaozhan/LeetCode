@@ -9,6 +9,9 @@ from collections import Counter
 
 # @lc code=start
 class Solution:
+    '''the key here is to use a prefix array but not do it in one pass at the beginning,
+       but do it together with a Counter() while constructing the prefix array.
+    '''
     def subarraySum(self, nums: List[int], k: int) -> int:
         prefix = [0]*len(nums)
         prefix[0] = nums[0]
