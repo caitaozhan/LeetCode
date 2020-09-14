@@ -77,7 +77,22 @@ class Solution3:
                 heapq.heappop(rooms)
             heapq.heappush(rooms, e)
         return len(rooms)
-    
+
+
+class Solution4:
+    '''if multiple confernence rooms are available, put in any of them.
+    '''
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals, key=lambda x:x[0])
+        rooms = []                # end time
+        for s, e in intervals:
+            for i in range(len(rooms)):
+                if rooms[i] <= s:
+                    rooms[i] = e
+                    break
+            else:
+                rooms.append(e)
+        return len(rooms)
 
 '''
 [[0,30],[5,10],[15,20]]
