@@ -94,7 +94,7 @@ class Solution:
         self.end = self.w[-1]
 
     def pickIndex(self) -> int:
-        pick = randint(0, self.end)
+        pick = randint(1, self.end)
         return bisect_left(self.w, pick)
         
 
