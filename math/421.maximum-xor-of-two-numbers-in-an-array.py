@@ -37,7 +37,10 @@
 from typing import List
 
 # @lc code=start
-class Solution:
+class Solution2:
+    '''key idea: try to construct the max_xor starting from the left most bit
+       key math: p1 ^ p2 = target  ==> p1 ^ target = p2, and use a set to store the p1, p2 ...
+    '''
     def findMaximumXOR(self, nums: List[int]) -> int:
         size = len(bin(max(nums))) - 2
         max_xor = 0
@@ -50,6 +53,35 @@ class Solution:
                     max_xor |= 1
                     break
         return max_xor
+
+
+class Solution:
+    '''using a trie, which is basically a nested dictionary
+    '''
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        size = len(bin(max(nums))) - 2 
+        nums = [[num>>i & 1 for i in reversed(range(size))] for num in nums]
+        trie_root = {}
+        max_xor = 0
+        for num in nums:       # when inserting a new number into the trie, compare with all the previous numbers, in constant time O(size)
+            cur = trie_root    # for building the trie
+            xor = trie_root    # for finding the max_xor
+            cur_max = 0
+            for bit in num:
+                if bit not in cur:
+                    cur[bit] = {}
+                cur = cur[bit]
+
+                oppo_bit = bit ^ 1     # flip the bit
+                if oppo_bit in xor:
+                    cur_max = cur_max << 1 | 1
+                    xor = xor[oppo_bit]
+                else:
+                    cur_max = cur_max << 1
+                    xor = xor[bit]
+            max_xor = max(max_xor, cur_max)
+        return max_xor
+
 
 
 def test():
