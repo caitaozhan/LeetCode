@@ -96,7 +96,7 @@ class Solution:
     def pickIndex(self) -> int:
         pick = randint(1, self.end)
         return bisect_left(self.w, pick)
-        
+
 
 
 # Your Solution object will be instantiated and called as such:
