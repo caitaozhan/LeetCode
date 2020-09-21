@@ -64,6 +64,10 @@ class SolutionTLE:
 
 
 class Solution2:
+    '''idea 1: problem 560 subarray sum equals k. the usage of prefix array and using a Counter to keep track the number of target prefixes
+       idea 2: problem 974 subarray sums divisible by k. the usage of modulo %. when you see "divisible", think of modulo
+       idea 3: what is different than problem 560 and 974 is that here don't use a Counter. instead use a dict to keep track the right most prefix
+    '''
     def minSubarray(self, nums: List[int], p: int) -> int:
         summ = sum(nums)
         target = summ % p
@@ -80,7 +84,7 @@ class Solution2:
             if x in latest:
                 ans = min(ans, i - latest[x])
             if x == 0:
-                ans = min(ans, i + 1)
+                ans = min(ans, i + 1)   # BUG: edge case
             latest[prefix[i]] = i
         return ans if ans != float('inf') and ans != len(nums) else -1
 
