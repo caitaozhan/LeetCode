@@ -45,7 +45,9 @@ Constraints:
 from typing import List
 from itertools import accumulate
 
-class Solution:
+class SolutionTLE:
+    '''O(n^2) solution, TLE
+    '''
     def minSubarray(self, nums: List[int], p: int) -> int:
         acc = list(accumulate(nums))
         summ = acc[-1]
@@ -61,7 +63,56 @@ class Solution:
         return -1
 
 
-nums = [6,3,5,2]
-p = 9
+class Solution2:
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        summ = sum(nums)
+        target = summ % p
+        if target == 0:
+            return 0
+
+        prefix = [0]*len(nums)
+        prefix[0] = nums[0] % p
+        latest = {prefix[0]:0}
+        ans = float('inf')
+        for i in range(1, len(nums)):
+            prefix[i] = (prefix[i-1] + nums[i]) % p
+            x = (prefix[i] - target) % p
+            if x in latest:
+                ans = min(ans, i - latest[x])
+            if x == 0:
+                ans = min(ans, i + 1)
+            latest[prefix[i]] = i
+        return ans if ans != float('inf') and ans != len(nums) else -1
+
+
+class Solution:
+    '''almost same as Solution2, just different way of handling the edge case
+       where the current (right) pointer is at i and we want to find the left pointer j is at -1
+    '''
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        summ = sum(nums)
+        target = summ % p
+        if target == 0:
+            return 0
+
+        prefix = [0]*len(nums)
+        prefix[0] = nums[0] % p
+        latest = {0:-1}
+        latest[prefix[0]] = 0
+        ans = float('inf')
+        for i in range(1, len(nums)):
+            prefix[i] = (prefix[i-1] + nums[i]) % p
+            x = (prefix[i] - target) % p
+            if x in latest:
+                ans = min(ans, i - latest[x])
+            latest[prefix[i]] = i
+        return ans if ans != float('inf') and ans != len(nums) else -1
+
+nums = [8,32,31,18,34,20,21,13,1,27,23,22,11,15,30,4,2]
+p = 148
+# nums= [1,2,3]
+# p = 7
+
+# s = SolutionTLE()
 s = Solution()
 print(s.minSubarray(nums, p))
