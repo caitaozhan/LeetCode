@@ -34,7 +34,7 @@
 from typing import List
 
 # @lc code=start
-class Solution:
+class Solution2:
     '''dynamic programming
     '''
     def maxSubArray(self, nums: List[int]) -> int:
@@ -48,5 +48,17 @@ class Solution:
                 dp[i] = nums[i]
             maxx = max(dp[i], maxx)
         return maxx
+
+class Solution:
+    '''optimize time complexity to O(1)
+    '''
+    def maxSubArray(self, nums: List[int]) -> int:
+        cur_max = float('-inf')
+        ans = float('-inf')
+        for n in nums:
+            cur_max = max(cur_max + n, n)
+            ans = max(ans, cur_max)
+        return ans
+
 # @lc code=end
 
