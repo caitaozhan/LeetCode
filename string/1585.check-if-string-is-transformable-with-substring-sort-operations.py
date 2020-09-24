@@ -46,7 +46,7 @@ s and t only contain digits from '0' to '9'.
 
 import collections
 
-class Solution:
+class Solution2:
     def isTransformable(self, s: str, t: str) -> bool:
         s=list([int(ch)for ch in s])
         t=list([int(ch)for ch in t])
@@ -64,6 +64,21 @@ class Solution:
             for i in range(x):
                 if q_s[i] and q_s[i][0]<indx:
                     return False
+        return True
+
+class Solution:
+    def isTransformable(self, s: str, t: str) -> bool:
+        idx, pos = [[] for _ in range(10)], [0 for _ in range(10)]
+        for i, ch in enumerate(s):
+            idx[int(ch)].append(i)
+        for ch in t:
+            d = int(ch)
+            if pos[d] >= len(idx[d]):
+                return False
+            for i in range(d):
+                if pos[i] < len(idx[i]) and idx[i][pos[i]] < idx[d][pos[d]]:
+                    return False
+            pos[d] += 1
         return True
 
 
