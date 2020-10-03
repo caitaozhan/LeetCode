@@ -21,6 +21,9 @@ The integers in the m arrays will be in the range of [-10000, 10000].
 from typing import List
 
 class Solution:
+    ''' idea 1: only consider the min and max of each array
+        idea 2: do a sorting based on min and max, there are three cases to consider.
+    '''
     def maxDistance(self, arrays: List[List[int]]) -> int:
         arrays2 = []
         for i, arr in enumerate(arrays):
