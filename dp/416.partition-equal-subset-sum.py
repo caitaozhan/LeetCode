@@ -72,5 +72,39 @@ class Solution:
         return dp[len(nums)-1][summ//2]
 
 
+class SolutionTLE:
+    '''a solution by constructing the subsets
+    '''
+    def canPartition(self, nums: List[int]) -> bool:
+        nums.sort()        # first utilize the larger elements
+        target, rem = divmod(sum(nums), 2)
+        if rem!=0:
+            return False
+        groups= [0,0]
+
+        def search(groups):
+            if not nums:
+                return True
+            ele = nums.pop()
+            for i, group in enumerate(groups):
+                if group+ele <= target:
+                    groups[i] += ele
+                    if search(groups):
+                        return True
+                    groups[i] -= ele
+                if not group:
+                    break
+            nums.append(ele)
+            return False
+        
+        return search(groups)
+
+def test():
+    nums = [10,4,2,5,3,2,2,2,2]
+    s = Solution()
+    print(s.canPartition(nums))
+
+test()
+
 # @lc code=end
 
