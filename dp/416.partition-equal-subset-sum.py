@@ -82,14 +82,14 @@ class SolutionTLE:
             return False
         groups= [0,0]
 
-        def search(groups):
+        def dfs(groups):
             if not nums:
                 return True
             ele = nums.pop()
             for i, group in enumerate(groups):
                 if group+ele <= target:
                     groups[i] += ele
-                    if search(groups):
+                    if dfs(groups):
                         return True
                     groups[i] -= ele
                 if not group:
@@ -97,7 +97,7 @@ class SolutionTLE:
             nums.append(ele)
             return False
         
-        return search(groups)
+        return dfs(groups)
 
 def test():
     nums = [10,4,2,5,3,2,2,2,2]
