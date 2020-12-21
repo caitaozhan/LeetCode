@@ -44,6 +44,9 @@ Output: 5
 from typing import List
 
 class Solution:
+    '''O(m^3 n) algorithm, the version I implemented during the interview
+       6000 ms, time beat 5%
+    '''
     def count(self, num):
         return int((num+1)*num/2)
     
@@ -89,3 +92,122 @@ class Solution:
                 ans += self.one_row(row)
         
         return ans
+
+
+class Solution2:
+    '''O(m^2 n) algorithm, opmizating Solution
+       1200 ms, time beat 9%
+    '''
+    def one_row(self, row):
+        '''compute the number of sub-arrays in an one-dimension array
+        Args:
+            row -- list<int>
+        Return:
+            int
+        '''
+        count = 0
+        summ = 0
+        for e in row:
+            if e == 1:
+                count += 1
+            else:
+                count = 0
+            summ += count
+        return summ
+
+    def collapse(self, collapsed, row):
+        '''element-wise AND
+        Args:
+            collapsed -- list<int>
+            row       -- list<int>
+        Return:
+            list<int>
+        '''
+        ans = []
+        for a, b in zip(collapsed, row):
+            ans.append(a & b)
+        return ans
+
+    def numSubmat(self, mat: List[List[int]]) -> int:
+        m = len(mat)
+        n = len(mat[0])
+        ans = 0
+        for i in range(m):
+            collapsed = [1] * n
+            for j in range(i, m):
+                collapsed = self.collapse(collapsed, mat[j])
+                ans += self.one_row(collapsed)
+        return ans
+
+
+class Solution3:
+    '''O(m n) algorithm, using monotone stack
+       244 ms, time beat 77%
+    '''
+    def numSubmat(self, mat: List[List[int]]) -> int:
+        m, n = len(mat), len(mat[0])
+        
+        #precipitate mat to histogram 
+        for i in range(m):
+            for j in range(n):
+                if mat[i][j] and i > 0: 
+                    mat[i][j] += mat[i-1][j] #histogram 
+        # for row in mat:
+        #     print(row)
+        # print()
+
+        ans = 0
+        for i in range(m):
+            stack = [] # mono-stack of indices of non-decreasing height
+            count = 0
+            for j in range(n):
+                while stack and mat[i][stack[-1]] > mat[i][j]: 
+                    right  = stack.pop()                          # start
+                    left   = stack[-1] if stack else -1           # end
+                    count -= (mat[i][right] - mat[i][j])*(right - left) #adjust to reflect lower height
+
+                count += mat[i][j] # count submatrices bottom-right at (i, j)
+                # print(count, end=' ')
+                ans += count
+                stack.append(j)
+            # print()
+
+        return ans
+
+
+def test1():
+    mat = [[1,0,1],
+           [1,1,0],
+           [1,1,0]]
+    s = Solution()
+    print(s.numSubmat(mat))
+
+
+def test2():
+    mat = [[1,0,1],
+           [1,1,0],
+           [1,1,0]]
+
+    mat = [[0,1,1,0],
+           [0,1,1,1],
+           [1,1,1,0]]
+    s = Solution2()
+    print(s.numSubmat(mat))  
+
+
+def test3():
+    mat = [[1,0,1],
+           [1,1,0],
+           [1,1,0]]
+
+    mat = [[0,1,1,0],
+           [0,1,1,1],
+           [1,1,1,0]]
+    s = Solution3()
+    print(s.numSubmat(mat))
+
+
+if __name__ == '__main__':
+    test1()
+    test2()
+    test3()
