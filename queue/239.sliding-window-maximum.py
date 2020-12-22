@@ -44,6 +44,7 @@
 #
 
 from typing import List
+from collections import deque
 
 # @lc code=start
 class Solution:
@@ -51,10 +52,6 @@ class Solution:
     def __init__(self):
         self.nums = []
         self.k = 0
-
-    def init(self, nums, k):
-        self.nums = nums
-        self.k    = k
 
     def update_queue(self, queue, i):
         '''1. make sure the queue only contains past k elements (the sliding window)
@@ -74,13 +71,11 @@ class Solution:
 
 
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        self.init(nums, k)
-        from collections import deque
-        if not nums:
-            return []
-
+        self.nums = nums
+        self.k    = k
         queue = deque()   # a queue of nums's index
         output = []
+
         for i in range(k):
             self.update_queue(queue, i)
             queue.append(i)
