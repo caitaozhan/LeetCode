@@ -89,11 +89,10 @@ def match3(s: str, p: str):
     dp[0][0] = 1
     for i in range(1, m + 1):
         for j in range(1, n + 1):
-            # if s[i - 1] == p[j - 1]:
-            #     dp[i][j] = dp[i - 1][j - 1]                  # match
-            # if p[j - 1] == '?':
-            #     dp[i][j] = dp[i - 1][j - 1] or dp[i][j - 1]  # match or skip
-            dp[i][j] = dp[i - 1][j - 1] or dp[i][j - 1]        # simplify to only this line
+            if s[i - 1] == p[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]                  # match
+            if p[j - 1] == '?':
+                dp[i][j] = dp[i - 1][j - 1] or dp[i][j - 1]  # match or skip
     return True if dp[m][n] else False
 
 
