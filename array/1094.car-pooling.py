@@ -88,6 +88,8 @@ from itertools import accumulate
 from typing import List
 
 class Solution:
+    '''This solution works if the start and end are integers.
+    '''
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
         person = [0 for _ in range(1001)]
         for num, start, end in trips:
@@ -95,6 +97,30 @@ class Solution:
             person[end] -= num
         maxx = max(accumulate(person))
         return True if maxx <= capacity else False
-        
+
+
+class Solution2:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        from_list = sorted(trips, key = lambda x: x[1])
+        to_list   = sorted(trips, key = lambda x: x[2])
+        current = 0
+        i, j = 0, 0    # i is for from_list, j is for to_list
+        while i < len(from_list):
+            if from_list[i][1] < to_list[j][2]:
+                current += from_list[i][0]
+                i += 1
+            elif to_list[j][2] < from_list[i][1]:
+                current -= to_list[j][0]
+                j += 1
+            else:      # from_list[i][1] == to_list[j][2]
+                current += from_list[i][0]
+                current -= to_list[j][0]
+                i += 1
+                j += 1
+
+            if current > capacity:
+                return False
+
+        return True
 # @lc code=end
 
