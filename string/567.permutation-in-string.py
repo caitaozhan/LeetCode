@@ -11,6 +11,8 @@ class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
         s1counter = Counter(s1)
         N = len(s1)
+        if N > len(s2):
+            return False
         s2counter = Counter(s2[:N])
         if s1counter == s2counter:
             return True
