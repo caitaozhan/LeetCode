@@ -66,7 +66,7 @@ class SolutionTLE:
             layer += 1
 
 
-class Solution:
+class Solution1:
     '''to prevent the O(n^2) building a graph, design a O(n*m^2) method of using intermediate nodes.
        here m << n. the real nodes are connected to the intermediate nodes.
     '''
@@ -80,9 +80,13 @@ class Solution:
             for i in range(len(beginWord)):
                 intermediate = self.get_intermediate(word, i)
                 graph[intermediate].append(word)
+                # the reverse link (word --> intermediate) is implicitely in the function self.get_intermediate()
 
         not_visited = set(wordList)
+        # start = time.time()
         dist = self.bfs(graph, endWord, beginWord, not_visited)
+        # print('bfs time', time.time() - start)
+        
         return dist
 
     def bfs(self, graph, start, end, not_visited):
@@ -108,6 +112,58 @@ class Solution:
         return word[:i] + '*' + word[i+1:]
 
 
+class Solution:
+    '''compared to Solution1, this one uses more memory (one more graph), but reduces the time
+    The bfs's time is smaller, because the graph's # of node is decreased to O(n) from O(n*m)
+    '''
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        # step 1: create the graph O(V + E)
+        template_dict = defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                template = word[:i] + '*' + word[i+1:]
+                template_dict[template].append(word)
+        
+        g = defaultdict(list)
+        for key, val in template_dict.items():
+            if len(val) == 1:
+                continue
+            for i in range(len(val)):
+                for j in range(i + 1, len(val)):
+                    g[val[i]].append(val[j])
+                    g[val[j]].append(val[i])
+        
+        # step 2: do the bfs (layer by layer)
+        # start = time.time()
+        queue = [endWord]
+        visited = set([endWord])
+        level = 0
+        dist = {endWord:level}
+        while queue:
+            new_queue = []
+            for cur in queue:
+                for nxt in g[cur]:
+                    if nxt not in visited:
+                        dist[nxt] = level + 1
+                        visited.add(nxt)
+                        new_queue.append(nxt)
+            queue = new_queue
+            level += 1
+        # print('bfs time', time.time() - start)
+
+        # step 3: get the answer
+        minn = float('inf')
+        for i in range(len(beginWord)):
+            template = beginWord[:i] + '*' + beginWord[i+1:]
+            for nodes in template_dict[template]:
+                if nodes in dist:
+                    minn = min(minn, dist[nodes])
+        if minn == float('inf'):
+            return 0
+        else:
+            return minn + 2
+    
+
 
 start = "charge"
 end = "comedo"
@@ -119,6 +175,11 @@ a = time.time()
 print(s.ladderLength(start, end, wordList))
 print(time.time() - a)
 
+s = Solution1()
+print(len(wordList))
+a = time.time()
+print(s.ladderLength(start, end, wordList))
+print(time.time() - a)
 
 
 s = SolutionTLE()
