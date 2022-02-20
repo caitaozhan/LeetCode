@@ -87,6 +87,22 @@ class Solution:
                 latest_end = end
         return counter
 
+class Solution:
+    '''greedy. after sorting, while iterating from left to right, 
+       it is ensured that the previous intervals will have a smaller equal left boundary
+       then only need to compare the right boundary. the key idea is to keep updating the latest right boundary
+    '''
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key=lambda x: (x[0], -x[1]))
+        remove = 0
+        latest_end = 0
+        for _, end in intervals:
+            if end > latest_end:
+                lateset_end = end
+            else:
+                remove += 1
+        return len(intervals) - remove
+
 
 class KeyWrapper:
     def __init__(self, iterable, key):

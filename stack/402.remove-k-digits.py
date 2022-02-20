@@ -6,7 +6,9 @@
 
 # @lc code=start
 class Solution:
-    '''monotone increase stack, putting index in the stack, and explicitly removing the k digit in the end'''
+    '''monotone increase stack, putting index in the stack, and explicitly removing the k digit in the end
+       the idea is greedy
+    '''
     def removeKdigits(self, num: str, k: int) -> str:
         stack = []
         remove = []
@@ -37,7 +39,7 @@ class Solution:
 
 
 class Solution:
-    '''monotone increase stack, putting the real digit in the queue, and keeping it as the remaining ones. (faster than the previous one)'''
+    '''monotone increase stack, putting the real digit in the stack, and keeping it as the remaining ones. (faster than the previous one)'''
     def removeKdigits(self, num: str, k: int) -> str:
         stack = []
         for i in num:
