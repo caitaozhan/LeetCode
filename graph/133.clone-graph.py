@@ -59,6 +59,7 @@ class Solution:
                     visited.add(nxt.val)
                 clone[cur.val].neighbors.append(clone[nxt.val])
 
+        return clone[node.val]
 
 # @lc code=end
 

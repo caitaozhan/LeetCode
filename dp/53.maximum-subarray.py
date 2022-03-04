@@ -50,7 +50,7 @@ class Solution2:
         return maxx
 
 class Solution:
-    '''optimize time complexity to O(1)
+    '''optimize space complexity to O(1)
     '''
     def maxSubArray(self, nums: List[int]) -> int:
         cur_max = float('-inf')
