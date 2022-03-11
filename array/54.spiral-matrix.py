@@ -58,7 +58,6 @@ class Solution:
         cur_loc = [0, -1]
         total_loc = m*n
         counter = 0
-        direct  = 0
         spiral  = []
         stop = False
         while stop is False:
