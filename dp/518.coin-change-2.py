@@ -71,15 +71,14 @@ from typing import List
 class Solution:
     '''Remember the outer loop is iterating through the coins
        It's like the knapsack problem, iterating throught the coins in the outer loop,
-       so that there is an 'order'. This order prevents the duplicatet solutions∂
+       so that there is an 'order'. This order prevents the duplicatet solutions
     '''
     def change(self, amount: int, coins: List[int]) -> int:
         dp = [0] * (amount+1)
         dp[0] = 1
         for coin in coins:
             for i in range(coin, amount+1):
-                if i >= coin:
-                    dp[i] += dp[i-coin]
+                dp[i] += dp[i-coin]
         return dp[amount]
 
 
