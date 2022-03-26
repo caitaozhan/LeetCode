@@ -62,6 +62,25 @@ class Solution:
             else:
                 return mid
         return -1
-        
+
+
+class Solution:
+    '''different in initial high = len(nums), while condition low < high, and high = mid
+       but still works, although a little bit worse (going into a little more while loops)
+    '''
+    def search(self, nums: List[int], target: int) -> int:
+        low = 0
+        high = len(nums)
+        while low < high:
+            mid = (low + high) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                low = mid + 1
+            else:
+                high = mid
+        return -1
+
+
 # @lc code=end
 
