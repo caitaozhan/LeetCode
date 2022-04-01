@@ -67,29 +67,62 @@ class Solution:
                 return index1
             else:
                 return -1
-        
+
+
+class Solution:
+    # time beats 98.4%
+    def search(self, nums: List[int], target: int) -> int:
+        '''a modified binary search
+        '''
+        low, high = 0, len(nums) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if nums[mid] == target:
+                return mid
+            if nums[low] < nums[mid] < nums[high]:                  # the normal case
+                if nums[mid] < target:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+            elif nums[mid] > nums[low] and nums[mid] > nums[high]:  # when [mid] is larger than both [low] and [high]
+                if nums[low] <= target < nums[mid]:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            elif nums[mid] < nums[low] and nums[mid] < nums[high]:  # when [mid] is smaller than both [low] and [high]
+                if nums[mid] < target <= nums[high]:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+            else:   # high - low <= 1
+                if nums[high] == target:
+                    return high
+                break
+        return -1
+
+
 
 s = Solution()
 
-nums = [1,3,5]
-target = 3
-print(s.search(nums, target))
+# nums = [1,3,5]
+# target = 3
+# print(s.search(nums, target))
 
-nums = [4,5,6,7,0,1,2]
-target = 0
-print(s.search(nums, target))
+# nums = [4,5,6,7,0,1,2]
+# target = 0
+# print(s.search(nums, target))
 
-nums = [4,5,6,7,0,1,2]
-target = 3
-print(s.search(nums, target))
+# nums = [4,5,6,7,0,1,2]
+# target = 3
+# print(s.search(nums, target))
 
-nums = [3, 5, 1]
-target = 1
-print(s.search(nums, target))
+# nums = [3, 5, 1]
+# target = 1
+# print(s.search(nums, target))
 
-nums = [3, 5, 1]
-target = 3
-print(s.search(nums, target))
+# nums = [3, 5, 1]
+# target = 3
+# print(s.search(nums, target))
 
 nums = [5,1,2,3,4]
 target = 1
