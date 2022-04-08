@@ -34,11 +34,12 @@ from typing import List
 # @lc code=start
 class Solution2:
     '''DP solution
-    input: x[0 ... n-1]
-    subproblem-left: dp_left[i] is the largest number from [0 ... i-1]
-    subproblem-right: dp_right[i] is the largest number from [i+1 ...]
-    equation for left: dp_left[i] = max(dp_left[i-1], x[i])
-    ans: the trapped water problem uses the above subproblems.
+       input: x[0 ... n-1]
+       subproblem-left: dp_left[i] is the largest number from [0 ... i-1]
+       subproblem-right: dp_right[i] is the largest number from [i+1 ...]
+       equation for left: dp_left[i] = max(dp_left[i-1], x[i])
+       ans: the trapped water problem uses the above subproblems.
+       adding water "vertically"
     '''
     def trap(self, height: List[int]) -> int:
         n = len(height)
@@ -61,6 +62,7 @@ class Solution2:
 
 class Solution:
     '''Monotone stack solution, here it is a decreasing stack
+       adding water "horizontally"
     '''
     def trap(self, height: List[int]) -> int:
         n = len(height)
