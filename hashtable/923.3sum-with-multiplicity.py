@@ -36,13 +36,14 @@ class Solution:
 
 class Solution:
     '''O(n^2) solution, reducing to a two-sum problem
+       using a counter and sort the keys, so it is more efficient
     '''
     def threeSumMulti(self, arr: List[int], target: int) -> int:
         ans = 0
         counter = Counter()
         for num in arr:
             counter[num] += 1
-        arr = sorted(counter)
+        arr = sorted(counter)   # prevent duplicate
 
         for i, a in enumerate(arr):
             two_sum = target - a
