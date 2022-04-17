@@ -12,6 +12,7 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
 class Solution:
     def increasingBST(self, root: TreeNode) -> TreeNode:
         stack = []
@@ -31,8 +32,29 @@ class Solution:
             prev = cur
             cur = cur.right
         prev.left = None
-
         return new_root
-            
-        
+
+
+
+class Solution:
+    '''use a dummy node, code a bit more clean
+    '''
+    def increasingBST(self, root: TreeNode) -> TreeNode:
+        stack = []
+        cur = root
+        dummy = TreeNode()
+        prev = dummy
+        while stack or cur:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            prev.left = None
+            prev.right = cur
+            prev = cur
+            cur = cur.right
+
+        prev.left = None
+        return dummy.right
+
 # @lc code=end
