@@ -141,6 +141,34 @@ class Solution:
         x, y = misplaced[0], misplaced[-1]
         x.val, y.val = y.val, x.val
 
+
+class Solution:
+    '''a slight modification of using a misplaced list
+    '''
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        node1, node2 = None, None
+        stack = []
+        cur = root
+        prev = None
+        while stack or cur:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            
+            if prev:
+                if prev.val > cur.val:
+                    if node1 is None:
+                        node1 = prev
+                    node2 = cur
+            
+            prev = cur
+            cur = cur.right
+        
+        node1.val, node2.val = node2.val, node1.val
         
 
 # @lc code=end
