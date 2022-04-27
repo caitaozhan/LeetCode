@@ -48,49 +48,52 @@ All pairs (xi, yi) are distinct.
 
 from typing import List
 
-class DSU:
+class DS:
     def __init__(self, n):
         self.n = n
-        self.parent = [i for i in range(n)]
+        self.parent = [i for i in range(self.n)]
     
     def find(self, x):
-        while self.parent[x] != x:
+        while x != self.parent[x]:
             x_p = self.parent[x]
             self.parent[x] = self.parent[x_p]  # path compression
-            x = self.parent[x]
+            x = x_p
         return x
     
     def union(self, x, y):
         x_p = self.find(x)
         y_p = self.find(y)
-        if x_p != y_p:   # not in the same joint set
-            self.parent[x_p] = y_p    # parent of y is the new root
-
+        if x_p != y_p:
+            self.parent[y_p] = x_p  # parent of x is the new root
+        
 
 class Solution:
+    
+    def distance(self, x, y):
+        return abs(x[0] - y[0]) + abs(x[1] - y[1])
+    
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        # step 1: sort all the edges
         edges = []
-        for i in range(len(points)):
-            for j in range(len(points)):
+        n = len(points)
+        for i in range(n):
+            for j in range(i+1, n):   # start from i+1, not 0. remove duplicates
                 dist = self.distance(points[i], points[j])
                 edges.append((dist, i, j))
-        edges = sorted(edges, key=lambda x:x[0])
+        edges.sort(key=lambda x: x[0])
         
+        # step 2: iterate the edges
+        i = 0  # for successfully added edges
+        j = 0  # for all edges
         ans = 0
-        n = len(points)
-        dsu = DSU(n)
-        i = 0
-        j = 0 # inter through the edges
-        while i < n-1:  # MST algo.
-            dist, a, b = edges[j]
-            a_p = dsu.find(a)
-            b_p = dsu.find(b)
-            if a_p != b_p:
-                dsu.union(a, b)
-                i += 1
+        ds = DS(n)
+        while i < n - 1:
+            dist, x, y = edges[j]
+            x_p = ds.find(x)
+            y_p = ds.find(y)
+            if x_p != y_p:
+                ds.union(x, y)
                 ans += dist
+                i += 1
             j += 1
         return ans
-                
-    def distance(self, p1, p2):
-        return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
