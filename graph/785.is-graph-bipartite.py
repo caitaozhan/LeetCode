@@ -39,6 +39,39 @@ class Solution:
             queue = new_queue
         return True
 
+
+class Solution:
+    '''this BFS saves memory/time comparing to the previous BFS.
+    '''
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        colors = [-1] * len(graph)
+        for i in range(len(graph)):
+            if colors[i] == -1:
+                if self.bfs(graph, i, colors) is False:
+                    return False
+        return True
+    
+    def bfs(self, graph, start, colors):
+        '''a layer-by-layer BFS
+           return False if not bipartite, True if bipartite
+        '''
+        queue = [start]
+        color = 0
+        colors[start] = color
+        while queue:
+            new_queue = []
+            for cur in queue:
+                for nxt in graph[cur]:
+                    if colors[nxt] == -1:   # not colored
+                        colors[nxt] = (color + 1) % 2
+                        new_queue.append(nxt)
+                    else:                   # colored
+                        if colors[nxt] == color:
+                            return False
+            queue = new_queue
+            color = (color + 1) % 2
+        return True
+
 # @lc code=end
 
 
