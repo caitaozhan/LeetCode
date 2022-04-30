@@ -142,6 +142,42 @@ class Solution2:
         return ret
 
 
+class Solution3:
+    '''no return value, no member using self., but using a list that pass into the parameter
+    '''
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        
+        def dfs(cur, end, cost, visited, final_cost):
+            if final_cost:
+                return
+            if cur == end:
+                final_cost.append(cost)
+                return
+            visited.add(cur)
+            for nxt, val in graph[cur]:
+                if nxt not in visited:
+                    dfs(nxt, end, cost*val, visited, final_cost)
+        
+        graph = defaultdict(list)
+        for (a, b), v in zip(equations, values):
+            graph[a].append((b, v))
+            graph[b].append((a, 1/v))
+            
+        ans = []
+        for a, b in queries:
+            if a not in graph:
+                ans.append(-1.0)
+                continue
+            if a == b:
+                ans.append(1.0)
+                continue
+            final_cost = []
+            visited = set()
+            dfs(a, b, 1, visited, final_cost)
+            value = final_cost[0] if final_cost else -1
+            ans.append(value)
+        return ans
+
 
 equations = [["x1","x2"],["x2","x3"],["x3","x4"],["x4","x5"]]
 values = [3.0,4.0,5.0,6.0]
