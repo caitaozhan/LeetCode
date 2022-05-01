@@ -20,9 +20,8 @@ class Solution:
                 dfs(stack + ['('], path, left_count, n)
             else:
                 if left_count == n:   # '(' is full
-                    stack.pop()
                     path += ')'
-                    dfs(stack, path, left_count, n)
+                    dfs(stack[:-1], path, left_count, n)
                 else:
                     # put '('
                     path += '('
@@ -32,9 +31,8 @@ class Solution:
                     left_count -= 1
 
                     # put ')'
-                    stack.pop()
                     path += ')'
-                    dfs(stack, path, left_count, n)
+                    dfs(stack[:-1], path, left_count, n)
 
         stack = []
         path = ''
