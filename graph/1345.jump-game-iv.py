@@ -114,7 +114,7 @@ class Solution:
 class Solution:
     '''build graph and do BFS
        Don't build the real complete graph... just build a 'semi-graph'
-       time=0.05s for a len(arr)=50000 sample with almost the same number
+       The key is clearing the 'semi-graph' while doing BFS. a visited array is still O(1), but clearing makes it O(0)
     '''
     def minJumps(self, arr: List[int]) -> int:
         if len(arr) == 1:
