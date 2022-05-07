@@ -25,11 +25,10 @@ class MyQueue:
         return self.s2.pop()
 
     def peek(self) -> int:
-        
-        
+        return self.s2[-1]
 
     def empty(self) -> bool:
-        
+        return True if len(self.s2) == 0 else False
 
 
 # Your MyQueue object will be instantiated and called as such:
