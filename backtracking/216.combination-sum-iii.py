@@ -55,6 +55,7 @@ class SolutionIter:
 
 class Solution:
     '''backtracking
+       9/12/2020
     '''
     def __init__(self):
         self.ans = []
@@ -78,6 +79,56 @@ class Solution:
             lst.append(i)
             self.backtrack(i+1, lst)
             lst.pop()
+
+
+class Solution:
+    '''Recursion in a Backtrack way
+       5/10/2022
+    '''
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        
+        def backtrack(stack, summation, start):
+            if len(stack) == k:
+                if summation == n:
+                    ans.append(stack.copy())
+                return
+            if summation > n:
+                return
+
+            for i in range(start, 10):
+                backtrack(stack + [i], summation + i, i + 1)
+
+        ans = []
+        backtrack(stack=[], summation=0, start=1)
+        return ans
+
+class Solution:
+    '''Recursion in a DFS way
+    '''
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        
+        def dfs(stack, summation, i):
+            '''summation is the sum of the previous (i-1) numbers
+            '''
+            if summation > n:
+                return
+            if len(stack) == k:
+                if summation == n:
+                    ans.append(stack.copy())
+                return
+            if i == 10:
+                return    
+
+            # skip the current number i
+            dfs(stack, summation, i + 1)
+
+            # pick the current number i
+            dfs(stack + [i], summation + i, i + 1)
+
+        ans = []
+        dfs(stack=[], summation=0, i=1)
+        return ans
+
 
 s = Solution()
 print(s.combinationSum3(3, 9))

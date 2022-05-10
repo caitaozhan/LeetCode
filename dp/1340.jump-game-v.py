@@ -18,15 +18,15 @@ class Solution:
             # go left
             dstack = []
             left = max(-1, i - d - 1)
-            for j in range(i, left, -1):
-                if j != i and arr[j] >= arr[i]:
+            for j in range(i - 1, left, -1):
+                if arr[j] >= arr[i]:
                     break
                 maxx = max(dp[j] + 1, maxx)
             
             # go right
             right = min(len(arr), i + d + 1)
-            for j in range(i, right):
-                if j != i and arr[j] >= arr[i]:
+            for j in range(i + 1, right):
+                if arr[j] >= arr[i]:
                     break
                 maxx = max(dp[j] + 1, maxx)
             

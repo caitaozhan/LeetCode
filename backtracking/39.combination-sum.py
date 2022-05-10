@@ -19,11 +19,11 @@ class Solution:
                     ans.append(stack.copy())
                 return
             
-            # repeat current's ith element
+            # select the current ith element (it may be selected over and over again)
             stack.append(candidates[i])
             dfs(i, stack, summation + candidates[i])
 
-            # go to the next element
+            # skip the current element and go to the next
             stack.pop()
             dfs(i+1, stack, summation)
 
