@@ -10,7 +10,7 @@ import math
 
 # @lc code=start
 class Solution:
-    '''without using a set
+    '''no need for a set
     '''
     def __init__(self):
         self.ans = 0
@@ -41,7 +41,7 @@ class Solution:
             if len(neigh) == 0:
                 return 0
         
-        # step 3: do DFS
+        # step 3: do backtracking
         def dfs(cur, nums_counter, stack):
             nums_counter[cur] -= 1
             stack.append(cur)
