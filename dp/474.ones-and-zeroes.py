@@ -27,6 +27,29 @@ class Solution:
                         dp[k][i][j] = dp[k-1][i][j]
         return dp[len(strs)][m][n]
 
+
+class Solution:
+    '''two dimensional knapsack, i.e., there are two weights
+       the value of each item is 1
+       subproblem: dp[i][j] is the size of largest subset with i zeros and j ones while iteration to the current item
+       reducing space complexity
+    '''
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        dp_pre = [[0]*(n + 1) for _ in range(m + 1)]
+        for s in strs:
+            dp = [[0]*(n + 1) for _ in range(m + 1)]
+            zero = s.count('0')
+            one = s.count('1')
+            for i in range(m + 1):
+                for j in range(n + 1):
+                    if i - zero >= 0 and j - one >= 0:
+                        dp[i][j] = max(dp_pre[i][j], dp_pre[i - zero][j - one] + 1)
+                    else:
+                        dp[i][j] = dp_pre[i][j]
+            dp_pre = dp
+        return dp[m][n]
+
+
 strs = ["10","0001","111001","1","0"]
 m = 5
 n = 3
