@@ -49,7 +49,7 @@ class Solution:
 
 
 
-envelopes = [[5,4],[6,4],[6,7],[2,3]]
+envelopes = [[5,4],[6,4],[6,7],[2,3],[8,8],[8,7],[6,1],[7,2]]
 s = Solution()
 print(s.maxEnvelopes(envelopes))
 
