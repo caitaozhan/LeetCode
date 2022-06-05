@@ -93,6 +93,45 @@ class Solution:
         return self.answers
 
 
+class Solution:
+    '''doing it again on 6/4/2022
+    '''
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        
+        def board2output(board):
+            output = []
+            for col in board:
+                s = '.' * col
+                s += 'Q'
+                s += '.' * (n - col - 1)
+                output.append(s)
+            return output
+        
+        def check(row, col):
+            # check vertically
+            for i in range(row):
+                if board[i] == col:                      # check vertically
+                    return False
+                if abs(board[i] - col) == abs(i - row):  # check diagonally
+                    return False
+            return True
+        
+        def backtrack(row):
+            if row == n:
+                ans.append(board2output(board))
+            for col in range(n):
+                if check(row, col):
+                    board[row] = col
+                    backtrack(row + 1)
+                    # board[row] = -1
+        
+        ans = []
+        board = [-1] * n   # board[i] = j --> queen is at [i][j] of the board
+        backtrack(row=0)
+        return ans
+
+
+
 def test(n):
     s = Solution()
     answers = s.solveNQueens(n)

@@ -10,10 +10,9 @@ class Solution:
         m = len(matrix)    # m row
         n = len(matrix[0]) # n column
         ans = [[0 for _ in range(m)] for _ in range(n)]  # n row, m column
-        
-
-
-
+        for i in range(n):
+            for j in range(m):
+                ans[i][j] = matrix[j][i]
         return ans
 
         

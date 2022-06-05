@@ -81,6 +81,36 @@ class Solution:
         return self.answers
 
 
+class Solution:
+    '''doing it again on 6/5/2022
+    '''
+    def __init__(self):
+        self.ans = 0
+        
+    def totalNQueens(self, n: int) -> int:
+        
+        def check(row, col):
+            for i in range(row):
+                if col == board[i]:
+                    return False
+                if abs(board[i] - col) == abs(i - row):
+                    return False
+            return True
+        
+        def backtrack(row):
+            if row == n:
+                self.ans += 1
+            for col in range(n):
+                if check(row, col):
+                    board[row] = col
+                    backtrack(row + 1)
+        
+        board = [-1] * n
+        backtrack(row = 0)
+        return self.ans
+        
+
+
 def test(n):
     s = Solution()
     answers = s.totalNQueens(n)
