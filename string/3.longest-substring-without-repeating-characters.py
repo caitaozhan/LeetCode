@@ -89,5 +89,24 @@ class Solution:
         
         return maxx
 
+
+class Solution:
+    '''6/11/2022 redo
+    '''
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        mydict = {}
+        j = -1
+        ans = 0
+        for i in range(len(s)):
+            if s[i] not in mydict:
+                ans = max(ans, i - j)
+                mydict[s[i]] = i
+            else:
+                j = max(j, mydict[s[i]])
+                ans = max(ans, i-j)
+                mydict[s[i]] = i
+        return ans
+
+
 # @lc code=end
 
