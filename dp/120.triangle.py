@@ -56,5 +56,39 @@ class Solution:
             dp1, dp2 = dp2, dp1
         return min(dp1)
 
+
+class Solution:
+    '''6/12/2022 redo, space O(n^2) version
+    '''
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        row = len(triangle)
+        dp = []
+        for i in range(row):
+            dp.append([0] * (i + 1))
+        dp[0][0] = triangle[0][0]
+        for i in range(1, row):
+            for j in range(i + 1):
+                if j == 0:
+                    dp[i][j] = dp[i-1][j] + triangle[i][j]
+                elif i == j:
+                    dp[i][j] = dp[i-1][j-1] + triangle[i][j]
+                else:
+                    dp[i][j] = min(dp[i-1][j], dp[i-1][j-1]) + triangle[i][j]
+        return min(dp[row-1])
+
+
+class Solution:
+    '''6/12/2022 redo, flipping the triangle (thinking out of the box)
+    '''
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        n = len(triangle)
+        dp = triangle[-1]
+        new_dp = [0] * n
+        for i in reversed(range(n-1)):  # row: n-2, n-3, ..., 0
+            for j in range(i+1):
+                new_dp[j] = min(dp[j], dp[j+1]) + triangle[i][j]
+            dp, new_dp = new_dp, dp
+        return dp[0]
+
 # @lc code=end
 
