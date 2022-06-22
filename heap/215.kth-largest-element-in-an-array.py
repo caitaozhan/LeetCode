@@ -77,7 +77,7 @@ class Solution5:
             heapq.heappush(heap, num)
             if len(heap) > k:
                 heapq.heappop(heap)
-        return heapq.heappop(heap)
+        return heap[0]
 
 class Solution6:
     '''sorting O(NlogN)
