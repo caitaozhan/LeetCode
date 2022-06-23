@@ -59,7 +59,7 @@ from typing import List
 
 # @lc code=start
 class Solution:
-    '''topologicla sort by kahn's algorithm
+    '''topological sort by kahn's algorithm
     '''
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         adjlist = [[] for _ in range(numCourses)]
