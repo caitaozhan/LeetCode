@@ -41,7 +41,6 @@ class Solution:
         return False
 
 
-
 class Solution:
     '''a succinct version of the above correct code
     '''
@@ -58,7 +57,6 @@ class Solution:
                         nums[i] = nums[i-1]
                     modify = True
         return True
-
 
 
 nums = [4,2,1]
