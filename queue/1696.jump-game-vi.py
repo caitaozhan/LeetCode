@@ -12,7 +12,6 @@ class Solution:
         n = len(nums)
         dp = [float('-inf')] * n
         dp[0] = nums[0]
-        maxx = float('-inf')
         for i in range(n):
             start = max(0, i - k)
             for j in range(start, i):
@@ -51,6 +50,28 @@ class Solution:
             dp[i] = maxx + nums[i]
             self.update_queue(queue, i, dp)
             i += 1
+        return dp[-1]
+
+
+class Solution:
+    # redo on 7/9/2022
+    def maxResult(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        dp = [0] * n
+        queue = deque()
+        queue.append(0)  # index of dp in the queue
+        dp[0] = nums[0]
+        for i in range(1, n):
+            maxx = dp[queue[0]]
+            val = maxx + nums[i]
+            dp[i] = val
+            # update queue
+            if queue and i - queue[0] == k:
+                queue.popleft()
+            while queue and val >= dp[queue[-1]]:
+                queue.pop()
+            queue.append(i)
+        
         return dp[-1]
 
 # @lc code=end
