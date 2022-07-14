@@ -58,14 +58,17 @@ class TreeNode:
         self.right = right
 
 class Solution:
-
+    '''travere in preorder (explicitly)
+       build one node (the root) at a time in each recursive call
+       the recursive function return the root
+    '''
     def __init__(self):
         self.i = 0
 
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         
         def helper(left, right):
-            if left >= right:
+            if left > right:   # the left node
                 return None
             
             root_val = preorder[self.i]
@@ -73,7 +76,7 @@ class Solution:
             self.i += 1  # to the next one in the preorder
 
             indx = mydict[root_val]
-            root.left = helper(left, indx)
+            root.left = helper(left, indx - 1)
             root.right = helper(indx + 1, right)
             return root
 
@@ -81,8 +84,52 @@ class Solution:
         for i, val in enumerate(inorder):
             mydict[val] = i
         self.i = 0
-        root = helper(left=0, right=len(preorder))
+        root = helper(left=0, right=len(preorder)-1)
         return root
+
+
+
+class Solution:
+    '''traverse in preorder (but implicitly)
+       prebuild all the nodes, then connect them
+       the recursive function returns None
+    '''
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        in_node2index = {}
+        for i, node in enumerate(inorder):
+            in_node2index[node] = i
+        nodes = []
+        for node in preorder:
+            nodes.append(TreeNode(node))
+        
+        def build(pre_low: int, pre_up: int, in_low, in_up):
+            '''
+            Args:
+                pre_low  -- the low pointer in the preorder
+                pre_high -- the high pointer in the preorder
+                in_low   -- the low pointer in the corresponding inorder
+                in_high  -- the high pointer in the corresponding inorder
+            Return: None
+            '''
+            if pre_low > pre_up:
+                return
+
+            root = nodes[pre_low]
+            in_rootindex = in_node2index[root.val]
+            
+            leftchilds_num = in_rootindex - in_low
+            if leftchilds_num > 0:
+                root.left = nodes[pre_low + 1]
+                build(pre_low + 1, pre_low + leftchilds_num, in_low, in_rootindex-1)  # root's left childs
+            
+            rightchilds_num = in_up - in_rootindex
+            if rightchilds_num > 0:
+                root.right = nodes[pre_low + leftchilds_num + 1]
+                build(pre_low + leftchilds_num + 1, pre_up, in_rootindex+1, in_up)    # root's right childs
+
+        build(0, len(preorder)-1, 0, len(inorder)-1)
+
+        return nodes[0]
 
 # @lc code=end
 
