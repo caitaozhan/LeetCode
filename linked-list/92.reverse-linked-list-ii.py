@@ -66,5 +66,46 @@ class Solution:
 
         return dummy1.next
 
+
+
+class Solution:
+    '''doing again on 7/21/2022
+       partition the list into left, middle, right
+    '''
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        if left == right:
+            return head
+        # step 1: segment the list
+        node_before_left = None
+        node_after_right = None
+        node_right = None
+        node_left = None
+        dummy = ListNode(0, head)
+        cur = dummy
+        counter = 0
+        while cur:
+            if counter == left - 1:
+                node_before_left = cur
+                node_left = cur.next
+            if counter == right:
+                node_right = cur
+                node_after_right = cur.next
+                break
+            cur = cur.next
+            counter += 1
+        # step 2: reverse the middle segment
+        prev = node_left
+        cur = prev.next
+        while cur != node_after_right:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+        # step 3: concatinate the middle segment with left and right
+        node_before_left.next = node_right
+        node_left.next = node_after_right
+        
+        return dummy.next
+
 # @lc code=end
 
