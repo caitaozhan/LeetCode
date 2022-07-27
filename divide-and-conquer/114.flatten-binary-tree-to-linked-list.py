@@ -65,8 +65,8 @@ class Solution:
         if root is None:
             return None, None
         
-        left_head, left_tail = self.flatten_helper(root.left)
-        right_head, right_tail = self.flatten_helper(root.right)
+        left_head, left_tail = self.flatten_helper2(root.left)
+        right_head, right_tail = self.flatten_helper2(root.right)
         if left_head is None and right_head is None:
             return root, root           # leaf node
         elif left_head is None and right_head is not None:
@@ -86,7 +86,7 @@ class Solution:
 
 
     def flatten_helper(self, root):
-        '''Given a root, flatten it and return the flattened list's tail
+        '''Given a root, flatten it and return the flattened list's tail (the flattened list's head is the root itself)
         '''
         if root is None:
             return None
