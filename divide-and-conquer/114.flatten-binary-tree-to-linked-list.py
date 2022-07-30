@@ -118,5 +118,37 @@ class Solution:
         self.flatten_helper(root)
 
 
+class Solution:
+    '''7/29/2022 redo
+    '''
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        def flatten_helper(root) -> "TreeNode":
+            '''flatten the tree (root and its subtree), and return the flattened tree's tail node
+            '''
+            if root is None:
+                return None
+            
+            left_tail  = flatten_helper(root.left)
+            right_tail = flatten_helper(root.right)
+            
+            if left_tail and right_tail:
+                left_tail.right = root.right
+                root.right = root.left
+                root.left = None
+                return right_tail
+            elif left_tail and right_tail is None:
+                root.right = root.left
+                root.left = None
+                return left_tail
+            elif left_tail is None and right_tail:
+                return right_tail
+            else:
+                return root
+                
+        flatten_helper(root)
+
 # @lc code=end
 
