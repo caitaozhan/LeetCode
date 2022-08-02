@@ -41,7 +41,7 @@ class Solution:
 
 class Solution:
     '''O(m + n)
-       the time reduction is done by the following observation: all the counter of words in words can be "combined"
+       the time reduction is done by the following observation: all the counter of words in words2 can be "combined"
     '''
     def wordSubsets(self, words1: List[str], words2: List[str]) -> List[str]:
 

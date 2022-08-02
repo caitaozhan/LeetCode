@@ -28,10 +28,10 @@ class SegTree:
         summ = left.summ + right.summ
         return SegTreeNode(low, high, summ, left, right)
 
-    def update(self, index, val):
+    def update(self, index: int, val: int):
         self._update(self._root, index, val)
 
-    def _update(self, root, index, val):
+    def _update(self, root: SegTreeNode, index: int, val: int):
         if root.low == root.high == index:
             root.summ = val                   # leaf node
             return
@@ -42,7 +42,7 @@ class SegTree:
             self._update(root.right, index, val)
         root.summ = root.left.summ + root.right.summ
 
-    def sum_range(self, low, high) -> int:
+    def sum_range(self, low: int, high: int) -> int:
         return self._sum_range(self._root, low, high)
 
     def _sum_range(self, root: SegTreeNode, low: int, high: int):
