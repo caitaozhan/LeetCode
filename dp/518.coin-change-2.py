@@ -84,6 +84,7 @@ class Solution:
 
 class SolutionWrong:
     '''This will lead to duplicate solutions
+       but this is the correct solution to #377.combination-sum-iv
     '''
     def change(self, amount: int, coins: List[int]) -> int:
         dp = [0] * (amount+1)
