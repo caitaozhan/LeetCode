@@ -66,7 +66,7 @@ class TreeNode:
         print(self.val, end=' ')
 
 class Solution2:
-    '''inorder the tree, check each node
+    '''preorder the tree, check each node
     '''
     def __init__(self):
         self.answer = True
@@ -113,6 +113,31 @@ class Solution:
 
     def isValidBST(self, root: TreeNode) -> bool:
         return self.helper(root, lower=float('-inf'), upper=float('inf'))
+
+
+class Solution:
+    '''Redo on 8/11/2022, using a global variable instead of returning bool
+    '''
+    def __init__(self):
+        self.ans = True
+        
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        
+        def helper(root: TreeNode, lower: float, upper: float):
+            '''return True if root is valid, else False
+            '''
+            if self.ans == False:
+                return
+            
+            if root:
+                if not (lower < root.val < upper):
+                    self.ans = False
+                    return
+                helper(root.left, lower, root.val)
+                helper(root.right, root.val, upper)
+                
+        helper(root, float('-inf'), float('inf'))
+        return self.ans
 
 
 if __name__ == '__main__':
