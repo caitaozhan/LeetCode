@@ -169,6 +169,55 @@ class Solution:
         return answer
 
 
+from collections import Counter
+
+class Solution:
+    '''Redo on 8/13/2022
+       faster than old versions
+       time = O(n * m)
+       n = len(s)
+       m = len(words)
+    '''
+    def __init__(self):
+        self.length = 0
+        self.num_words = 0
+
+    def preprocess(self, s: str, word_counter: list) -> list:
+        s_prepro = []
+        for i in range(len(s) - self.length + 1):
+            word = s[i: i + self.length]
+            if word in word_counter:
+                s_prepro.append(word)
+            else:
+                s_prepro.append('')
+        return s_prepro
+
+    def match(self, start_i: int, s_prepro: list, word_counter: Counter) -> bool:
+        mycounter = Counter()
+        end_i = start_i + self.length * self.num_words
+        for i in range(start_i, end_i, self.length):
+            if s_prepro[i] != '':
+                mycounter[s_prepro[i]] += 1
+        return mycounter == word_counter
+
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        ''' s -- O(N)
+            words -- O(M)
+        '''
+        self.length = len(words[0])
+        self.num_words = len(words)
+        word_counter = Counter()                        # word --> frequency
+        for word in words:
+            word_counter[word] += 1
+
+        s_prepro = self.preprocess(s, word_counter)
+        ans = []
+        for i in range(len(s) - self.length * self.num_words + 1):
+            if self.match(i, s_prepro, word_counter):
+                ans.append(i)
+        return ans
+
+
 def test1():
     s = "barfoothefoobarman"
     words = ["foo","bar"]
@@ -209,7 +258,7 @@ if __name__ == '__main__':
     # test1()
     # test2()
     # test3()
-    # test4()
-    test5()
+    test4()
+    # test5()
 # @lc code=end
 
