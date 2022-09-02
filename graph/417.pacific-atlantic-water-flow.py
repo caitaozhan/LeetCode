@@ -9,8 +9,9 @@ from typing import List
 
 
 class Solution:
-    ''' do BFS two times, one for pacific and one for atlantic
-        O(nm) where n, m is the length, width of the grid
+    '''the key is to start at the ocean, instead of the cell, i.e., think reversely
+       do BFS two times, one for pacific and one for atlantic
+       O(nm) where n, m is the length, width of the grid
     '''
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         def bfs(queue: list, visited: set, ocean: str):
