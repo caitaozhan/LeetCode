@@ -32,6 +32,26 @@ class Solution:
         return ans
 
 
+class Solution:
+    def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
+        def backtrack(stack: list):
+            if len(stack) == n:
+                ans.append(int(''.join(map(str, stack))))
+                return
+
+            if len(stack) == 0:
+                for digit in range(1, 10):
+                    backtrack(stack + [digit])
+            else:
+                nxt_digits = set([stack[-1] + x for x in [k, -k]])
+                for nxt in nxt_digits:
+                    if 0 <= nxt < 10:
+                        backtrack(stack + [nxt])
+        
+        ans = []
+        backtrack(stack=[])
+        return ans
+
 n= 3
 k = 7
 s = Solution()
