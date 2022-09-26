@@ -9,6 +9,9 @@ from collections import defaultdict
 
 # @lc code=start
 class Solution:
+    '''use a dictionary, the space complexity is high: O(n)
+       time complexity: O(nlogn)
+    '''
     def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
         mydict_max = defaultdict(int)
         mydict = defaultdict(list)
@@ -23,6 +26,24 @@ class Solution:
                     ans += 1
             maxx = max(maxx, mydict_max[key])
         return ans
+
+
+class Solution:
+    '''a smarter sorting, the time complexity is also O(nlogn) but in practice slower than the above Solution
+       but the space complexity is lower: O(logn)
+    '''
+    def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
+        properties.sort(key=lambda x: (x[0], -x[1]))
+        n = len(properties)
+        maxx = 0
+        ans = 0
+        for i in range(n - 1, -1, -1):
+            if properties[i][1] < maxx:
+                ans += 1
+            else:
+                maxx = properties[i][1]
+        return ans
+
 
             
 properties = [[1,5],[10,4],[4,3],[11,4],[10,3],[10,2],[11,3]]
