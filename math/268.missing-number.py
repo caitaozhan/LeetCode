@@ -15,6 +15,8 @@ class Solution:
         for i in range(len(nums)):
             if i != nums[i]:
                 return i
+        return len(nums)
+
 
 class Solution:
     '''O(n) time
@@ -42,6 +44,19 @@ class Solution:
         for i in range(len(nums)):
             if i != nums[i]:
                 return i
+
+
+class Solution:
+    '''using math...
+    '''
+    def missingNumber(self, nums: List[int]) -> int:
+        n = len(nums)
+        expected_sum = n * (n + 1) // 2
+        real_sum = sum(nums)
+        return expected_sum - real_sum
+
+
+
 
 nums = [9,6,4,2,3,5,7,0,1]
 # nums = [3, 0, 1]
