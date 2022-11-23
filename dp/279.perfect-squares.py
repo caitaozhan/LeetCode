@@ -28,7 +28,38 @@ class Solution:
         return Solution.perfect_squares.dp[n]
 
 
-n = 17
+
+class Solution:
+    '''iteratively deepening DFS
+       There is a theorem called Lagrange's four-square theorem that states 
+       every natural number can be represeted as the sum of four integer squares.
+       So, the answer to the problem is upper bounded by 4
+    '''
+    def numSquares(self, n: int) -> int:
+
+        def dfs(n, d) -> bool:
+            if d == 1:
+                if n in squarenum_set:
+                    return True
+                else:
+                    return False
+            for num in squarenum_list:
+                if dfs(n - num, d - 1):
+                    return True
+
+        squarenum_set = set([i**2 for i in range(1, int(math.sqrt(n)) + 1)])
+        squarenum_list = [i**2 for i in range(1, int(math.sqrt(n)) + 1)]
+        depth = [1, 2, 3]
+        for d in depth:
+            if dfs(n, d):
+                return d
+
+        return 4
+        
+
+
+
+n = 12
 s = Solution()
 print(s.numSquares(n))
 
