@@ -48,14 +48,13 @@ class Solution:
 
 
 class Solution:
-    '''use only one stack. remove '-' by turning -a into +(-a), use a variable to store the current operator
+    '''use only one stack. remove '-' by turning -a into +(-a), use a variable to store the previous operator
     '''
     def calculate(self, s: str) -> int:
         s = s.replace(' ', '')
         stack = []
         cur_num = 0
         prev_operation = '+' if s[0] != '-' else '-'
-        i = 0
         for i in range(len(s)):
             if s[i].isdigit():
                 cur_num = 10*cur_num + int(s[i])
