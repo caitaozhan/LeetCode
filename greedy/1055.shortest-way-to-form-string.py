@@ -12,7 +12,7 @@ their concatenation equals target. If the task is impossible, return -1.
 from collections import defaultdict, Counter
 
 class Solution:
-    '''dp solution is O(n^3), which will TLE'''
+    '''dp solution is O(n^2 * (n + m)), which will TLE'''
     def shortestWay(self, source: str, target: str) -> int:
         subsequence = {}  # str -> bool
         def is_subsequence(s: str):
@@ -61,7 +61,7 @@ class Solution:
 
 
 class Solution:
-    '''greedy solution, O(n)
+    '''greedy solution, O(n + m)
     '''
     def shortestWay(self, source: str, target: str) -> int:
         # step 1: construct a meta data for source
@@ -69,10 +69,9 @@ class Solution:
         for i, ch in enumerate(source):
             sdict[ch].append(i)
         # step 2: check if possible or not
-        set_source = set(source)
         set_target = set(target)
         for ch in set_target:
-            if ch not in set_source:
+            if ch not in sdict:
                 return -1
         # step 3: greedy, each time, construct the longest subsequence
         ans = 1
