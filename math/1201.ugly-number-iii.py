@@ -47,6 +47,49 @@ class Solution:
 
         return ans
 
+
+
+class Solution:
+    def nthUglyNumber(self, n: int, a: int, b: int, c: int) -> int:
+        def gcd(a: int, b: int) -> int:
+            '''euclidean algorithm'''
+            if b == 0:
+                return a
+            else:
+                return gcd(b, a % b)
+        
+        def lcm(a: int, b: int) -> int:
+            return a * b // gcd(a, b)
+
+        def ugly_rank(n: int, a: int, b: int, c: int) -> int:
+            rank_a = n // a
+            rank_b = n // b
+            rank_c = n // c
+            rank_ab = n // lcm(a, b)
+            rank_ac = n // lcm(a, c)
+            rank_bc = n // lcm(b, c)
+            rank_abc = n // lcm(lcm(a, b), c)
+            return rank_a + rank_b + rank_c - rank_ab - rank_ac - rank_bc + rank_abc
+
+        def is_ugly(n: int, a: int, b: int, c: int) -> bool:
+            return n % a == 0 or n % b == 0 or n % c == 0
+
+        low = 1
+        high = 2 * 10**9
+        while low <= high:
+            mid = (low + high) // 2
+            rank = ugly_rank(mid, a, b, c)
+            if rank < n:
+                low = mid + 1
+            elif rank > n:
+                high = mid
+            else:
+                if is_ugly(mid, a, b, c):
+                    return mid
+                else:
+                    high -= 1
+
+
 # n, a, b, c = 5, 2, 11, 13
 n, a, b, c = 25, 2, 3, 5
 s = Solution()

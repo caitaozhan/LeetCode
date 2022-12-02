@@ -48,16 +48,20 @@ class Solution:
         dp = [1]
         i2, i3, i5 = 0, 0, 0
         while len(dp) < n:
-            next = min(dp[i2] * 2 , dp[i3] * 3, dp[i5] * 5)
-            if dp[i2] * 2 == next:
+            nxt = min(dp[i2] * 2 , dp[i3] * 3, dp[i5] * 5)
+            if dp[i2] * 2 == nxt:
                 i2 += 1
-            if dp[i3] * 3 == next:
+            if dp[i3] * 3 == nxt:
                 i3 += 1
-            if dp[i5] * 5 == next:
+            if dp[i5] * 5 == nxt:
                 i5 += 1
-            dp.append(next)
+            dp.append(nxt)
         return dp[-1]
 
+
+n = 20
+s = Solution()
+print(s.nthUglyNumber(n))
 
 
 ########### One time precomputation, O(n)
