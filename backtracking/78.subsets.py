@@ -76,6 +76,22 @@ class Solution:
             dfs(stack, 0)
         return self.ans
 
+
+class Solution:
+    '''classic backtrack
+    '''
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(stack, idx):
+            ans.append(stack.copy())
+            for i in range(idx, len(nums)):
+                backtrack(stack + [nums[i]], i + 1)
+        
+        ans = []
+        backtrack([], 0)
+        return ans
+
+
+
 if __name__=='__main__':
     s = Solution()
     print(s.subsets([1, 2, 3]))

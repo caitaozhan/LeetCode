@@ -8,6 +8,8 @@
 
 
 class Solution:
+    '''TLE, when lcm is large and the period T is large
+    '''
     def nthUglyNumber(self, n: int, a: int, b: int, c: int) -> int:
         def gcd(a: int, b: int) -> int:
             '''euclidean algorithm'''
