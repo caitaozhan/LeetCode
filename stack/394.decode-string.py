@@ -83,6 +83,29 @@ class Solution:
         print()
 
 
+class Solution:
+    def decodeString(self, s: str) -> str:
+        stack = []
+        for ch in s:
+            if ch != ']':
+                stack.append(ch)
+            else:
+                string_list = []
+                while stack[-1] != '[':
+                    string_list.append(stack.pop())
+                stack.pop()
+                string = ''.join(reversed(string_list))
+                num_list = []
+                while stack and stack[-1].isdigit():
+                    num_list.append(stack.pop())
+                num = ''.join(reversed(num_list))
+                new_string = string * int(num)
+                stack.append(new_string)
+        return ''.join(stack)
+
+
+
+
 # @lc code=end
 
 """
