@@ -24,7 +24,7 @@ class SolutionOPT:
         return pre_max
 
 class Solution:
-    '''dp
+    '''dp, O(n)
     '''
     def rob(self, nums: List[int]) -> int:
         if not nums:
@@ -38,6 +38,21 @@ class Solution:
             dp[i] = max(dp[i-1], dp[i-2] + nums[i])
         # print(dp)
         return dp[-1]
+
+
+class Solution:
+    '''redo on 12/16/2022
+       dp[i] is the maximum money till robbing the ith house, O(n^2)
+    '''
+    def rob(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [0] * n
+        for i in range(n):
+            dp[i] = nums[i]
+            for j in range(i - 1):
+                dp[i] = max(dp[i], dp[j] + nums[i])
+        return max(dp)
+
 
 # @lc code=end
 
