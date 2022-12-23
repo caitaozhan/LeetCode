@@ -73,7 +73,7 @@ class SolutionTLE:
             for j in range(1, len(dp[0])):    # up to day j
                 for k in range(0, j):         # buy at day k, sell at day j
                     tmp = dp[i-1][k-1] if k > 0 else 0
-                    dp[i][j] = max(dp[i][j], dp[i][j-1], tmp + prices[j] - prices[k]) # don't sell at day k or sell at day k
+                    dp[i][j] = max(dp[i][j], dp[i][j-1], tmp + prices[j] - prices[k]) # don't sell at day j or sell at day j
         return dp[2][len(prices)-1]
 
 
