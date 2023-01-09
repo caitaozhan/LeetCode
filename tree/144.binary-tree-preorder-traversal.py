@@ -13,7 +13,7 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    '''using recursion / divide and conquer
+    '''divide and conquer
     '''
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         if root is None:
@@ -22,7 +22,24 @@ class Solution:
 
 
 class Solution:
-    '''using a stack
+    '''dfs
+    '''
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        ans = []
+        
+        def dfs(root):
+            if root is None:
+                return
+            ans.append(root.val)
+            dfs(root.left)
+            dfs(root.right)
+
+        dfs(root)
+        return ans
+
+
+class Solution:
+    '''using a stack, iterative
     '''
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         ans = []
@@ -36,8 +53,23 @@ class Solution:
             cur = stack.pop()
             cur = cur.right
         return ans
-            
 
+
+class Solution:
+    '''using a stack, iterative
+    '''
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        ans = []
+        stack = [root]
+        while stack:
+            cur = stack.pop()
+            if cur:
+                ans.append(cur.val)
+                if cur.right:
+                    stack.append(cur.right)
+                if cur.left:
+                    stack.append(cur.left)
+        return ans
 
 # @lc code=end
 
