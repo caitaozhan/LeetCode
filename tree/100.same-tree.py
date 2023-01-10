@@ -18,21 +18,32 @@ class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         if p is None and q is None:
             return True
-        elif p is None and q is not None:
-            return False
-        elif p is not None and q is None:
+        elif p is None or q is None:
             return False
         else:
             if p.val != q.val:
                 return False
-            ret1 = self.isSameTree(p.left, q.left)
-            ret2 = self.isSameTree(p.right, q.right)
-            if ret1 and ret2:
-                return True
-            else:
+            return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+
+
+class Solution:
+    '''preoder without including None is not unique,
+       but including None is unique
+    '''
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        def preorder(root: TreeNode) -> list:
+            if root is None:
+                return ['N']
+            return [root.val] + preorder(root.left) + preorder(root.right)
+        
+        plist = preorder(p)
+        qlist = preorder(q)
+        for a, b in zip(plist, qlist):
+            if a != b:
                 return False
-        
-        
+        else:
+            return True
+                
         
 # @lc code=end
 
