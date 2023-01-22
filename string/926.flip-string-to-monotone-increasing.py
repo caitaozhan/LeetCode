@@ -8,6 +8,8 @@ import time
 
 # @lc code=start
 class Solution:
+    '''O(n^2), remove_zero_prefix() is O(n), the bottleneck
+    '''
     def minFlipsMonoIncr(self, s: str) -> int:
         def remove_zero_prefix(s):
             ''' 0011 --> 11 
@@ -20,7 +22,6 @@ class Solution:
                 return '', 0
             else:
                 return s[index:], index
-
 
         zero_current = s.count('0')
         flip_one2zero = 0
@@ -86,12 +87,12 @@ class Solution:
         for i in range(1, len(s)):
             prefix_sum[i] = prefix_sum[i-1] + int(s[i])
         
-        ans = n - prefix_sum[n-1]  # turn all '0' into '1'
+        total_one = prefix_sum[-1]
+        ans = n - total_one    # turn all '0' into '1'
         for i in range(len(s)):
-            flip_one2zero = prefix_sum[i]
-            flip_zero2one = (n - 1 - i) - (prefix_sum[n-1] - prefix_sum[i])
+            flip_one2zero = prefix_sum[i]                               # for s[0] to s[i]
+            flip_zero2one = (n - 1 - i) - (total_one - prefix_sum[i])   # for s[i+1] to s[-1]
             ans = min(ans, flip_one2zero + flip_zero2one)
-
         return ans
 
 
