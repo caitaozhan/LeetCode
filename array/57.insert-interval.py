@@ -41,9 +41,11 @@
 
 # @lc code=start
 from typing import List
-from bisect import bisect_left, bisect_right
+from bisect import bisect_left, bisect_right, insort_left
 
 class Solution:
+    '''O(n), Sep 13, 2020
+    '''
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
         if not intervals:
             return [newInterval]
@@ -78,14 +80,37 @@ class Solution:
                 else:
                     middle.append([min(newInterval[0], intervals[left][0]), newInterval[1]])
         return middle
-        
 
-def test():
-    intervals = [[5,7]]
-    newInterval = []
-    s = Solution()
-    print(s.insert(intervals, newInterval))
-    
-test()
-        # @lc code=end
+
+
+class Solution:
+    '''O(n), Jan 15, 2023
+       using insort_left that modify the input array
+       then build the ans array in a smart way, by using ans[-1][1] as the threshold
+    '''
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        insort_left(intervals, newInterval)
+        n = len(intervals)
+        ans = []
+        i = 0
+        for i in range(n):
+            if len(ans) == 0 or intervals[i][0] > ans[-1][1]:
+                ans.append(intervals[i])
+            else:
+                if intervals[i][1] > ans[-1][1]:
+                    ans[-1][1] = intervals[i][1]
+        return ans
+
+
+
+intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]
+newInterval = [4,8]
+# intervals = [[5,7]]
+# newInterval = []
+s = Solution()
+print(s.insert(intervals, newInterval))
+   
+
+
+# @lc code=end
 
